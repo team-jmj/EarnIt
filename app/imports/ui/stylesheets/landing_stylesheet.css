@@ -1,0 +1,50 @@
+#landing {
+  background: no-repeat;
+  background-image: url("/images/earnit_landing.png");
+  background-size: 80%;
+  height: 50vw;
+  width: auto;
+  background-position: 45%, 50%;
+  margin-bottom: 50px;
+  margin-top: 40px;
+  padding: 70px;
+}
+
+#grid_rows1 {
+  margin-left: 90px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+#grid_rows2 {
+  margin-left: 110px;
+  margin-top: 4vw;
+  text-align: center;
+}
+
+#grid_rows3 {
+  margin-left: 110px;
+  margin-top: 2vw;
+  text-align: center;
+}
+
+#grid_rows4 {
+  margin-left: 110px;
+  margin-top: 3vw;
+  text-align: center;
+}
+
+#getstarted_button {
+  font-size: 2vw;
+}
+
+h1 {
+  /*font-size: 50px;*/
+  font-size: 4vw;
+}
+
+p {
+  /*font-size: 24px;*/
+  font-size: 2vw;
+}
+
