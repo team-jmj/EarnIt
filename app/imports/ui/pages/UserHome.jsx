@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
 import CanvasJSReact from '../../canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
