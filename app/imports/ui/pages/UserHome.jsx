@@ -5,11 +5,15 @@ const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class UserHome extends React.Component {
   render() {
+    let date = new Date();
+    const year = date.getFullYear();
+    const month = date.toLocaleString('en-us', { month: 'long' });
+
     const options1 = {
       animationEnabled: true,
       theme: "light1", // "light1", "dark1", "dark2"
       title:{
-        text: "June"
+        text: month
       },
       data: [{
         type: "pie",
@@ -32,7 +36,7 @@ class UserHome extends React.Component {
       animationEnabled: true,
       theme: "light1", // "light1", "dark1", "dark2"
       title:{
-        text: "2019"
+        text: year
       },
       data: [{
         type: "pie",
@@ -52,9 +56,7 @@ class UserHome extends React.Component {
       }]
     };
 
-    let date = new Date();
     date = date.toDateString();
-
     return (
         <Container textAlign='center'>
           <h1>{date}</h1>
@@ -77,12 +79,6 @@ class UserHome extends React.Component {
 }
 
 export default UserHome;
-
-
-
-
-
-
 
 
 
