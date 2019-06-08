@@ -58,7 +58,7 @@ class UserHome extends React.Component {
     return (
         <Container textAlign='center'>
           <h1>{date}</h1>
-          <h1>This month you'be saved: $</h1>
+          <h1>This month you've saved: $</h1>
           <Grid centered container>
             <Grid.Column width={8}>
               <CanvasJSChart options={options1}

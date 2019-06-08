@@ -21,7 +21,7 @@ class Landing extends React.Component {
             </Grid.Row>
 
             <Grid.Row id="grid_rows4">
-              <Button id="getstarted_button" size='big' color='blue' as={NavLink} activeClassName="active" exact to="/">
+              <Button id="getstarted_button" size='big' color='blue' as={NavLink} activeClassName="active" exact to="/about">
                 Get Started!</Button>
             </Grid.Row>
         </div>
