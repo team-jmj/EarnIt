@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
 /**
@@ -73,6 +74,7 @@ export default class Signin extends React.Component {
                       onChange={this.handleChange}
                   />
                   <Form.Button content="Submit"/>
+                  <Link to='/forgot'>Forgot Password?</Link>
                 </Segment>
               </Form>
               <Message>
