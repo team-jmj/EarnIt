@@ -3,12 +3,15 @@
 EarnIt is a Meteor web application that keeps track of the user's monthly income, track and categorize expenses, and allows the users to set a goal of how much they want to save each month.
 
 ## Team Members
-* M.A.
+* Mai Abe
   * Completed Tasks:
-    * To be updated...
+    * Set up landing page (create and insert background image and make the content responsive)
+    * Set up a profile page and create a profile schema
   * Current Tasks:
-    * To be updated...
-* J.C.
+    * Update landing page
+    * Work on user income input and history on the profile page
+    * Incorporate user income data into the database
+* Julie Chai
   * Completed Tasks:
     * Set up app overview page
     * Set up user home page
@@ -17,7 +20,7 @@ EarnIt is a Meteor web application that keeps track of the user's monthly income
     * Continue working on login security features
     * Continue to update app overview
     * Incorporate user data into user home
-* J.O.
+* Jun Okabe
   * Completed Tasks:
     * Setup the design of signup page
     * Setup majority of the needed security features on the signup page, such as password requirements and the presence of a privacy policy for the new user to view
@@ -38,3 +41,6 @@ EarnIt is a Meteor web application that keeps track of the user's monthly income
 * Incorporate user data into user home
 * Continue implementing login/signup security features
 * Implement features (and security features) in the Expense page
+* Implement user income input feature
+* Associate the user input to the database
+
