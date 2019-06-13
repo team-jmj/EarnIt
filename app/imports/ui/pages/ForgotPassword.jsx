@@ -31,7 +31,8 @@ class ForgotPassword extends React.Component {
       message =
       <Message
           success
-          header="Email sent with link to rest password"
+          header="Email sent with link to reset password"
+          content="Check your email!"
       />
     } else if (this.state.error) {
       message =
@@ -42,17 +43,21 @@ class ForgotPassword extends React.Component {
       />
     }
     return (
-        <Grid centered container columns={3}>
-          <Grid.Column verticalAlign='middle' width={2}>
-            Enter email:
-          </Grid.Column>
-          <Grid.Column verticalAlign='middle' width={3}>
-              <Input icon='mail outline' iconPosition='left' value={this.state.email} onChange={this.handleChange}/>
-          </Grid.Column>
-          <Grid.Column verticalAlign='middle' width={2}>
-              <Button onClick={this.handleSend}>Send</Button>
-          </Grid.Column>
-          {message}
+        <Grid centered container>
+          <Grid.Row>
+            <Grid.Column verticalAlign='middle' width={2}>
+              Enter email:
+            </Grid.Column>
+            <Grid.Column verticalAlign='middle' width={3}>
+                <Input icon='mail outline' iconPosition='left' value={this.state.email} onChange={this.handleChange}/>
+            </Grid.Column>
+            <Grid.Column verticalAlign='middle' width={2}>
+                <Button onClick={this.handleSend}>Send</Button>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            {message}
+          </Grid.Row>
         </Grid>
     );
   }
