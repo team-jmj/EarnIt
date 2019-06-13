@@ -1,24 +1,24 @@
 import React from 'react';
 import { Accounts } from 'meteor/accounts-base'
-import { Grid, Input, Button, Message } from 'semantic-ui-react';
+import { Container, Grid, Input, Button, Message, Segment } from 'semantic-ui-react';
 
 class ForgotPassword extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {email: '', error: ''};
+    this.state = { email: '', sent: false, error: '' };
     this.handleSend = this.handleSend.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleSend() {
-    // console.log(this.state.email);
-    const email = this.state.email;
-    Accounts.forgotPassword({email: email}, function(e) {
-      if (e) {
-        // this.setState({error: e.reason});
-        console.log(this.state.error);
+    Accounts.forgotPassword({email: this.state.email}, (err) => {
+      if (err) {
+        this.setState({error: err.reason});
+      } else {
+        this.setState({sent: true, error: ''});
       }
     });
+    this.setState({ email: '', sent: false, error: '' });
   }
 
   handleChange(e) {
@@ -26,26 +26,33 @@ class ForgotPassword extends React.Component {
   };
 
   render() {
+    let message = '';
+    if (this.state.sent && this.state.error === '') {
+      message =
+      <Message
+          success
+          header="Email sent with link to rest password"
+      />
+    } else if (this.state.error) {
+      message =
+      <Message
+          error
+          header="Email was not sent"
+          content={this.state.error}
+      />
+    }
     return (
-        <Grid centered container>
-          <Grid.Column width={3}>
+        <Grid centered container columns={3}>
+          <Grid.Column verticalAlign='middle' width={2}>
             Enter email:
           </Grid.Column>
-          <Grid.Column width={3}>
-            <Input icon='mail outline' iconPosition='left' value={this.state.email} onChange={this.handleChange}/>
+          <Grid.Column verticalAlign='middle' width={3}>
+              <Input icon='mail outline' iconPosition='left' value={this.state.email} onChange={this.handleChange}/>
           </Grid.Column>
-          <Grid.Column width={3}>
-            <Button onClick={this.handleSend}>Send</Button>
+          <Grid.Column verticalAlign='middle' width={2}>
+              <Button onClick={this.handleSend}>Send</Button>
           </Grid.Column>
-          {this.state.error === '' ? (
-              ''
-          ) : (
-              <Message
-                  error
-                  header="Email was not successful"
-                  content={this.state.error}
-              />
-          )}
+          {message}
         </Grid>
     );
   }
