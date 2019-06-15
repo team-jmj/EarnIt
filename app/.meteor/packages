@@ -37,3 +37,4 @@ alanning:roles                   # https://github.com/alanning/meteor-roles
 insecure@1.0.7                         # Enable client-side manipulation of Mongo collections.
 email
 accounts-base
+accounts-ui
