@@ -1,6 +1,14 @@
 import React from 'react';
 import { Accounts } from 'meteor/accounts-base'
-import { Container, Grid, Input, Button, Message, Segment } from 'semantic-ui-react';
+import { Grid, Input, Button, Message } from 'semantic-ui-react';
+
+
+// obtain MAIL_URL and set in command line (export MAIL_URL="<url>")
+//
+// or
+//
+// add to settings.production.json (MAIL_URL: "<url>") and add "process.env.MAIL_URL = Meteor.settings.MAIL_URL;" to
+// server/main.js
 
 class ForgotPassword extends React.Component {
   constructor(props) {
