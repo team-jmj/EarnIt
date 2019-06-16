@@ -31,6 +31,9 @@ export default class Signin extends React.Component {
     const { email, password } = this.state;
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
+        if (err.reason === 'Incorrect password') {
+          this.increaseAttempts(email);
+        }
         this.setState({ error: err.reason });
       } else {
         this.setState({ error: '', redirectToReferer: true });
@@ -38,8 +41,36 @@ export default class Signin extends React.Component {
     });
   }
 
+  increaseAttempts(email) {
+    const account = Meteor.call('findAccount', email, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result.username);
+
+      }
+    });
+  }
+
   /** Render the signin form. */
   render() {
+    let message = '';
+    if (this.state.attempts === 3) {
+      message =
+          <Message
+              error
+              header="3 bad login attempts"
+              content="Please try again in 5 minutes"
+          />
+    } else if (this.state.error) {
+      message =
+          <Message
+              error
+              header="Login was not successful"
+              content={this.state.error}
+          />
+    }
+
     const { from } = this.props.location.state || { from: { pathname: '/' } };
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
@@ -80,15 +111,7 @@ export default class Signin extends React.Component {
               <Message>
                 <Link to="/signup">Click here to Register</Link>
               </Message>
-              {this.state.error === '' ? (
-                  ''
-              ) : (
-                  <Message
-                      error
-                      header="Login was not successful"
-                      content={this.state.error}
-                  />
-              )}
+              {message}
             </Grid.Column>
           </Grid>
         </Container>

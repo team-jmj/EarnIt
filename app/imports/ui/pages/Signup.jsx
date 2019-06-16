@@ -29,7 +29,7 @@ export default class Signup extends React.Component {
   handleSubmit() {
     const { email, password } = this.state;
 
-    Accounts.createUser({ email, username: email, password }, (err) => {
+    Accounts.createUser({ email, username: email, password, profile: {attempts: 0, lockStart: null} }, (err) => {
       if (err) {
         this.setState({ error: err.reason });
       } else {
@@ -43,7 +43,7 @@ export default class Signup extends React.Component {
     const { from } = { from: { pathname: '/' } };
     const maxLength = 6;
 
-    console.log(this.state.redirectToReferer)
+    console.log(this.state.redirectToReferer);
 
     if (this.state.redirectToReferer) {
       return <Redirect to={ from }/>;
