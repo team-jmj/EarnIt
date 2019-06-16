@@ -43,8 +43,6 @@ export default class Signup extends React.Component {
     const { from } = { from: { pathname: '/' } };
     const maxLength = 6;
 
-    console.log(this.state.redirectToReferer)
-
     if (this.state.redirectToReferer) {
       return <Redirect to={ from }/>;
     }
