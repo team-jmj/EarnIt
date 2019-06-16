@@ -11,11 +11,13 @@ const ProfileSchema = new SimpleSchema({
   savings: Number,
   owner: String,
   income: {
-    'income.$': Object,
-    'income.$.date': Date,
-    'income.$.name': String,
-    'income.$.amount': Number,
+    type: Array,
+    optional: true,
   },
+  'income.$': Object,
+  'income.$.date': Date,
+  'income.$.name': String,
+  'income.$.amount': Number,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

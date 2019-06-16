@@ -18,6 +18,8 @@ import Signout from '../pages/Signout';
 import UserHome from '../pages/UserHome';
 import About from '../pages/About';
 import ForgotPassword from '../pages/ForgotPassword';
+import Profile from '../pages/Profile';
+import { Profiles } from '../../api/profile/profile';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -34,6 +36,7 @@ class App extends React.Component {
               <Route path="/about" component={About}/>
               <Route path="/forgot" component={ForgotPassword}/>
               <ProtectedRoute path="/list" component={ListStuff}/>
+              <ProtectedRoute path="/profile" component={Profile}/>
               <ProtectedRoute path="/add" component={AddStuff}/>
               <ProtectedRoute path="/edit/:_id" component={EditStuff}/>
               <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/>
