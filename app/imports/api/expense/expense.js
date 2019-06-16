@@ -7,6 +7,7 @@ const ExpenseCategory = new Mongo.Collection('ExpenseCategory');
 
 /** Create a schema to constrain the structure of documents associated with this collection. */
 const ExpenseCateSchema = new SimpleSchema({
+  user: {type: String},
   category_name: {type: String},
 }, { tracker: Tracker });
 
