@@ -5,6 +5,11 @@ import { Profiles } from '/imports/api/profile/profile';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
+import DateField from 'uniforms-semantic/DateField';
+import ListAddField from 'uniforms-semantic/ListAddField';
+import ListField from 'uniforms-semantic/ListField';
+import NestField from 'uniforms-semantic/NestField';
+import ListItemField from 'uniforms-semantic/ListItemField';
 import TextField from 'uniforms-semantic/TextField';
 import NumField from 'uniforms-semantic/NumField';
 import SubmitField from 'uniforms-semantic/SubmitField';
@@ -21,6 +26,11 @@ class Profile extends React.Component {
     this.submit = this.submit.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
     this.formRef = null;
+    this.state = {
+      date: 'income.$.date',
+      name: 'income.$.name',
+      amount: 'income.$.amount',
+    };
   }
 
   /** Notify the user of the results of the submit. If successful, clear the form. */
@@ -35,9 +45,10 @@ class Profile extends React.Component {
 
   /** On submit, insert the data. */
   submit(data) {
-    const { name, savings, income } = data;
+    const { income } = data;
     const owner = Meteor.user().username;
-    Profiles.insert({ name, savings, income, owner }, this.insertCallback);
+
+    Profiles.insert({ income, owner }, this.insertCallback);
   }
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
@@ -49,19 +60,24 @@ class Profile extends React.Component {
     return (
         <Container>
           <Grid container centered>
-            {/*<Grid.Column>*/}
-              {/*<Header as="h2">Add Income</Header>*/}
-              {/*<AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>*/}
+            <Grid.Column>
+              <Header as="h2">Add Income</Header>
+              <AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>
                 {/*<Segment>*/}
-                  {/*<TextField name='date'/>*/}
-                  {/*<TextField name='name'/>*/}
-                  {/*<NumField name='amount'/>*/}
-                  {/*<SubmitField value='Add'/>*/}
+                  {/*<TextField name="user"/>*/}
+                  {/*<NumField name="savings"/>*/}
+                  {/*<SubmitField value='Submit'/>*/}
                   {/*<ErrorsField/>*/}
                   {/*<HiddenField name='owner' value='fakeuser@foo.com'/>*/}
                 {/*</Segment>*/}
-              {/*</AutoForm>*/}
-            {/*</Grid.Column>*/}
+                <Segment>
+                  <ListField name="income"/>
+                  <SubmitField value='Add'/>
+                  <ErrorsField/>
+                  <HiddenField name='owner' value='fakeuser@foo.com'/>
+                </Segment>
+              </AutoForm>
+            </Grid.Column>
           </Grid>
           <Header as="h2">Income History</Header>
           <Table celled>
