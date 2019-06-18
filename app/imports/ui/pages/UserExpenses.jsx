@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Grid, Header, Loader, Segment, Card, Container, Icon } from 'semantic-ui-react';
+import { Divider, Grid, Header, Loader, Segment, Card, Container, Icon, Item } from 'semantic-ui-react';
 import { ExpenseCategory, ExpenseCategorySchema } from '/imports/api/expenseCategory/expenseCategory';
 import { Bert } from 'meteor/themeteorchef:bert';
 import AutoForm from 'uniforms-semantic/AutoForm';
