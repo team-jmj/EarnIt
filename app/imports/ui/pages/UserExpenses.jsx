@@ -69,7 +69,7 @@ class UserExpenses extends React.Component {
           <Divider horizontal>
             <Header as="h2">
               <Icon name="table" />
-              Your Spending Categories
+              Your Categories
             </Header>
           </Divider>
 

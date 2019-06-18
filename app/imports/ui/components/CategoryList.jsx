@@ -6,13 +6,36 @@ import AutoForm from 'uniforms-semantic/AutoForm';
 import TextField from 'uniforms-semantic/TextField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import HiddenField from 'uniforms-semantic/HiddenField';
-import { ExpenseCategory, ExpenseCategorySchema } from '/imports/api/expenseCategory/expenseCategory';
+import { UserExpense, UserExpenseSchema } from '/imports/api/userExpense/userExpense';
 import { Meteor } from 'meteor/meteor';
+import { Bert } from 'meteor/themeteorchef:bert';
 
 /** Renders a single row in the List Category table.*/
 class CategoryItem extends React.Component {
-  addSpendingClicked() {
-    console.log('Clicked!');
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
+    this.insertCallback = this.insertCallback.bind(this);
+  }
+
+  insertCallback(error) {
+    if (error) {
+      Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
+    } else {
+      Bert.alert({ type: 'success', message: 'Add Success!' });
+      this.formRef.reset();
+
+    }
+  }
+
+  submit(data) {
+    const { amount_spent, category_id } = data;
+    const user = Meteor.user().username;
+
+    console.log(data);
+
+    UserExpense.insert({ user,
+      category_id, amount_spent}, this.insertCallback);
   }
 
   render() {
@@ -25,11 +48,12 @@ class CategoryItem extends React.Component {
                 <Modal.Content>
                   <Modal.Description>
                       <AutoForm ref={(ref) => { this.formRef = ref; }}
-                                schema={ExpenseCategorySchema} onSubmit={this.submit}>
+                                schema={UserExpenseSchema} onSubmit={this.submit}>
                         <Segment>
-                          <TextField name="category" label="Input Amount Spent:"/>
+                          <TextField name="amount_spent" label="Input Amount Spent:"/>
                           <ErrorsField/>
                           <HiddenField name="user" value={Meteor.user().username}/>
+                          <HiddenField name="category_id" value={this.props.category._id}/>
                         </Segment>
                         <Container textAlign="center">
                           <Button basic compact size="large" color="red" onClick={this.addSpendingClicked}>Add Expense</Button>
