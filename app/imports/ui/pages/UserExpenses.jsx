@@ -50,7 +50,7 @@ class UserExpenses extends React.Component {
           <Grid container centered style={{padding: '0%, 0%, 20%, 0%'}}>
             <Grid.Column>
               <Header as="h2" textAlign="center">
-                <p>Add Category</p>
+                <p>Add Spending Category</p>
               </Header>
               <AutoForm ref={(ref) => { this.formRef = ref; }}
                         schema={ExpenseCategorySchema} onSubmit={this.submit}>
@@ -69,7 +69,7 @@ class UserExpenses extends React.Component {
           <Divider horizontal>
             <Header as="h2">
               <Icon name="table" />
-              Your Spending Categories
+              Your Categories
             </Header>
           </Divider>
 
@@ -91,7 +91,6 @@ UserExpenses.propTypes = {
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
-  // Get access to Stuff documents.
   const subscription = Meteor.subscribe('ExpenseCategory');
 
   return {

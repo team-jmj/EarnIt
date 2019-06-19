@@ -10,6 +10,9 @@ const UserExpenseSchema = new SimpleSchema({
   user: String,
   category_id: String,
   amount_spent: Number,
+  date: String,
+  year: String,
+  month: String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */
