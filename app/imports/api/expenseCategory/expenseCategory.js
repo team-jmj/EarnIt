@@ -9,6 +9,7 @@ const ExpenseCategory = new Mongo.Collection('ExpenseCategory');
 const ExpenseCategorySchema = new SimpleSchema({
   user: String,
   category: String,
+  description: String,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

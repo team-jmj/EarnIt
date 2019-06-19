@@ -3,6 +3,7 @@ import { Card, Button, Modal, Container, Segment, Table } from 'semantic-ui-reac
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import TextField from 'uniforms-semantic/TextField';
+import DateField from 'uniforms-semantic/DateField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import { UserExpense, UserExpenseSchema } from '/imports/api/userExpense/userExpense';
@@ -28,56 +29,43 @@ class CategoryItem extends React.Component {
   }
 
   submit(data) {
-    const { amount_spent, category_id, date, year, month } = data;
+    const { amount_spent, description, category_id, date, category_name } = data;
     const user = Meteor.user().username;
 
     UserExpense.insert({ user,
-      category_id, amount_spent, date, year, month}, this.insertCallback);
+      category_id, amount_spent, description, date, category_name}, this.insertCallback);
   }
 
   render() {
-    const today = new Date();
-    const months = ['January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'];
-
     return (
         <Card color="blue">
             <Card.Content >
               <Card.Header style={{margin: '5%'}}>{this.props.category.category}</Card.Header>
+              <Card.Description style={{margin: '5%'}}>{this.props.category.description}</Card.Description>
               <Modal trigger={<Button basic compact size="mini" color="red" style={{margin: '5%'}}>Add Spending</Button>} closeIcon>
-                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#FE3939', color: '#ffffff' }}>Add Spending</Modal.Header>
+                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#FE3939', color: '#ffffff' }}>Add Spending - {this.props.category.category}</Modal.Header>
                 <Modal.Content>
                   <Modal.Description>
                       <AutoForm ref={(ref) => { this.formRef = ref; }}
                                 schema={UserExpenseSchema} onSubmit={this.submit}>
                         <Segment>
+                          <DateField name="date" label="Date of Spending:"/>
                           <TextField name="amount_spent" label="Input Amount Spent:"/>
+                          <TextField name="description" label="Description:"/>
                           <ErrorsField/>
                           <HiddenField name="user" value={Meteor.user().username}/>
                           <HiddenField name="category_id" value={this.props.category._id}/>
-                          <HiddenField name="date" value={months[today.getMonth() + 1] + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()}/>
-                          <HiddenField name="year" value={today.getFullYear()}/>
-                          <HiddenField name="month" value={months[today.getMonth() + 1]}/>
+                          <HiddenField name="category_name" value={this.props.category.category}/>
                         </Segment>
                         <Container textAlign="center">
-                          <Button basic compact size="large" color="red" onClick={this.addSpendingClicked}>Add Expense</Button>
+                          <Button basic compact size="large" color="red">Add Expense</Button>
                         </Container>
                       </AutoForm>
                   </Modal.Description>
                 </Modal.Content>
               </Modal>
-              <Modal trigger={<Button basic compact size="mini" color="green" style={{margin: '5%'}}>View Spending</Button>} closeIcon>
-                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#21BA45', color: '#ffffff' }}>View Spending</Modal.Header>
+              <Modal trigger={<Button basic compact size="mini" color="green" style={{margin: '5%'}}>View Spending </Button>} closeIcon>
+                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#21BA45', color: '#ffffff' }}>View Spending - {this.props.category.category}</Modal.Header>
                 <Modal.Content>
                   <Modal.Description>
                     <Table celled>
@@ -85,11 +73,12 @@ class CategoryItem extends React.Component {
                         <Table.Row>
                           <Table.HeaderCell>Date</Table.HeaderCell>
                           <Table.HeaderCell>Amount</Table.HeaderCell>
+                          <Table.HeaderCell>Description</Table.HeaderCell>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item,i) => <Table.Row><Table.Cell key={i}>{item.date}</Table.Cell>
-                            <Table.Cell key={i}>{item.amount_spent}</Table.Cell></Table.Row>)}
+                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item, curr) => <Table.Row><Table.Cell key={curr}>{item.date.toDateString()}</Table.Cell>
+                            <Table.Cell key={curr}>{item.amount_spent}</Table.Cell><Table.Cell key={curr}>{item.description}</Table.Cell></Table.Row>)}
                       </Table.Body>
                     </Table>
                   </Modal.Description>

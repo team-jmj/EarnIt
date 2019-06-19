@@ -6,6 +6,7 @@ import AutoForm from 'uniforms-semantic/AutoForm';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import TextField from 'uniforms-semantic/TextField';
+import LongTextField from 'uniforms-semantic/LongTextField';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -33,11 +34,10 @@ class UserExpenses extends React.Component {
 
   /** On submit, insert the data. */
   submit(data) {
-    const { category } = data;
+    const { category, description } = data;
     const user = Meteor.user().username;
 
-    ExpenseCategory.insert({ user,
-      category}, this.insertCallback);
+    ExpenseCategory.insert({ user, category, description}, this.insertCallback);
   }
 
   render() {
@@ -55,7 +55,8 @@ class UserExpenses extends React.Component {
               <AutoForm ref={(ref) => { this.formRef = ref; }}
                         schema={ExpenseCategorySchema} onSubmit={this.submit}>
                 <Segment>
-                  <TextField name="category" label="New Category"/>
+                  <TextField name="category" label="New Category:"/>
+                  <TextField name="description" label="Description:"/>
                   <ErrorsField/>
                   <HiddenField name="user" value={Meteor.user().username}/>
                 </Segment>
