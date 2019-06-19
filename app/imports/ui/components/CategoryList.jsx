@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Button, Modal, Container, Segment, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { withRouter} from 'react-router-dom';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import TextField from 'uniforms-semantic/TextField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
@@ -9,7 +8,6 @@ import HiddenField from 'uniforms-semantic/HiddenField';
 import { UserExpense, UserExpenseSchema } from '/imports/api/userExpense/userExpense';
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
-import UserExpenseTable from './UserExpenseTable';
 import { withTracker } from 'meteor/react-meteor-data';
 
 /** Renders a single row in the List Category table.*/
@@ -30,14 +28,28 @@ class CategoryItem extends React.Component {
   }
 
   submit(data) {
-    const { amount_spent, category_id } = data;
+    const { amount_spent, category_id, date, year, month } = data;
     const user = Meteor.user().username;
 
     UserExpense.insert({ user,
-      category_id, amount_spent}, this.insertCallback);
+      category_id, amount_spent, date, year, month}, this.insertCallback);
   }
 
   render() {
+    const today = new Date();
+    const months = ['January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'];
+
     return (
         <Card color="blue">
             <Card.Content >
@@ -53,6 +65,9 @@ class CategoryItem extends React.Component {
                           <ErrorsField/>
                           <HiddenField name="user" value={Meteor.user().username}/>
                           <HiddenField name="category_id" value={this.props.category._id}/>
+                          <HiddenField name="date" value={months[today.getMonth() + 1] + ' ' + today.getDate() + ', ' + today.getFullYear() + ' ' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds()}/>
+                          <HiddenField name="year" value={today.getFullYear()}/>
+                          <HiddenField name="month" value={months[today.getMonth() + 1]}/>
                         </Segment>
                         <Container textAlign="center">
                           <Button basic compact size="large" color="red" onClick={this.addSpendingClicked}>Add Expense</Button>
@@ -68,12 +83,12 @@ class CategoryItem extends React.Component {
                     <Table celled>
                       <Table.Header>
                         <Table.Row>
-                          <Table.HeaderCell>User</Table.HeaderCell>
+                          <Table.HeaderCell>Date</Table.HeaderCell>
                           <Table.HeaderCell>Amount</Table.HeaderCell>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item,i) => <Table.Row><Table.Cell key={i}>{item.user}</Table.Cell>
+                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item,i) => <Table.Row><Table.Cell key={i}>{item.date}</Table.Cell>
                             <Table.Cell key={i}>{item.amount_spent}</Table.Cell></Table.Row>)}
                       </Table.Body>
                     </Table>
