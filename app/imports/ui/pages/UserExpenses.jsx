@@ -50,7 +50,7 @@ class UserExpenses extends React.Component {
           <Grid container centered style={{padding: '0%, 0%, 20%, 0%'}}>
             <Grid.Column>
               <Header as="h2" textAlign="center">
-                <p>Add Category</p>
+                <p>Add Spending Category</p>
               </Header>
               <AutoForm ref={(ref) => { this.formRef = ref; }}
                         schema={ExpenseCategorySchema} onSubmit={this.submit}>

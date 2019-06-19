@@ -20,28 +20,15 @@ class UserExpenseTable extends React.Component {
     return (
         <Table.Row>
           <Table.Cell>
-            {this.props.expenses}
+            Test
           </Table.Cell>
           <Table.Cell>
-            {this.props.expenses}
+            1.50
           </Table.Cell>
         </Table.Row>
     );
   }
 }
 
-UserExpenseTable.propTypes = {
-  expenses: PropTypes.array.isRequired,
-  ready: PropTypes.bool.isRequired,
-};
-
 /** Wrap this component in withRouter since we use the <Link> React Router element. */
-export default withTracker(() => {
-  // Get access to Stuff documents.
-  const subscription = Meteor.subscribe('UserExpense');
-
-  return {
-    expenses: UserExpense.find({}).fetch(),
-    ready: subscription.ready(),
-  };
-})(UserExpenseTable);
+export default UserExpenseTable;

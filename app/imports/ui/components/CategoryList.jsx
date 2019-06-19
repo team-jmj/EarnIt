@@ -73,7 +73,8 @@ class CategoryItem extends React.Component {
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-
+                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item,i) => <Table.Row><Table.Cell key={i}>{item.user}</Table.Cell>
+                            <Table.Cell key={i}>{item.amount_spent}</Table.Cell></Table.Row>)}
                       </Table.Body>
                     </Table>
                   </Modal.Description>
