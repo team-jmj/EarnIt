@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button, Modal, Container, Segment } from 'semantic-ui-react';
+import { Card, Button, Modal, Container, Segment, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { withRouter} from 'react-router-dom';
 import AutoForm from 'uniforms-semantic/AutoForm';
@@ -9,6 +9,8 @@ import HiddenField from 'uniforms-semantic/HiddenField';
 import { UserExpense, UserExpenseSchema } from '/imports/api/userExpense/userExpense';
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
+import UserExpenseTable from './UserExpenseTable';
+import { withTracker } from 'meteor/react-meteor-data';
 
 /** Renders a single row in the List Category table.*/
 class CategoryItem extends React.Component {
@@ -24,7 +26,6 @@ class CategoryItem extends React.Component {
     } else {
       Bert.alert({ type: 'success', message: 'Add Success!' });
       this.formRef.reset();
-
     }
   }
 
@@ -32,15 +33,13 @@ class CategoryItem extends React.Component {
     const { amount_spent, category_id } = data;
     const user = Meteor.user().username;
 
-    console.log(data);
-
     UserExpense.insert({ user,
       category_id, amount_spent}, this.insertCallback);
   }
 
   render() {
     return (
-        <Card color="green">
+        <Card color="blue">
             <Card.Content >
               <Card.Header style={{margin: '5%'}}>{this.props.category.category}</Card.Header>
               <Modal trigger={<Button basic compact size="mini" color="red" style={{margin: '5%'}}>Add Spending</Button>} closeIcon>
@@ -66,6 +65,17 @@ class CategoryItem extends React.Component {
                 <Modal.Header style={{ textAlign: 'center', backgroundColor: '#21BA45', color: '#ffffff' }}>View Spending</Modal.Header>
                 <Modal.Content>
                   <Modal.Description>
+                    <Table celled>
+                      <Table.Header>
+                        <Table.Row>
+                          <Table.HeaderCell>User</Table.HeaderCell>
+                          <Table.HeaderCell>Amount</Table.HeaderCell>
+                        </Table.Row>
+                      </Table.Header>
+                      <Table.Body>
+
+                      </Table.Body>
+                    </Table>
                   </Modal.Description>
                 </Modal.Content>
               </Modal>
@@ -80,5 +90,12 @@ CategoryItem.propTypes = {
   category: PropTypes.object,
 };
 
-/** Wrap this component in withRouter since we use the <Link> React Router element. */
-export default withRouter(CategoryItem);
+// export default CategoryItem;
+export default withTracker(() => {
+  const subscription = Meteor.subscribe('UserExpense');
+
+  return {
+    expenses: UserExpense.find({}).fetch(),
+    ready: subscription.ready(),
+  };
+})(CategoryItem);
