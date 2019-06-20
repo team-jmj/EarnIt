@@ -21,7 +21,7 @@ const IncomeSchema = new SimpleSchema({
   },
   owner: {
     type: String,
-    optional: true,
+    // optional: true,
   },
 }, { tracker: Tracker });
 

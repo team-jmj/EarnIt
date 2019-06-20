@@ -4,7 +4,7 @@ import { Container, Table, Header, Loader, Grid, Segment, Button, Icon } from 's
 import { Link } from 'react-router-dom';
 import { Profiles } from '/imports/api/profile/profile';
 import { Incomes, IncomeSchema } from '/imports/api/income/income';
-import { IncomeItem } from '/imports/ui/components/IncomeItem';
+import IncomeItem  from '/imports/ui/components/IncomeItem';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
@@ -26,6 +26,7 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.submit = this.submit.bind(this);
+    this.delete = this.delete.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
     this.formRef = null;
   }
@@ -44,9 +45,16 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
-    // const _id = this.props.profiles._id;
 
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
+  }
+
+  /** On click, delete the data. */
+  delete() {
+    const id = this.props.incomes._id;
+
+    Incomes.remove({_id: id});
+    console.log("delete function reached");
   }
 
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -82,17 +90,23 @@ class Profile extends React.Component {
                   </Segment>
                 </AutoForm>
             <Header as="h2">Income History</Header>
-            <Table celled>
+            <Table celled textAlign="center">
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Date</Table.HeaderCell>
                   <Table.HeaderCell>Name</Table.HeaderCell>
                   <Table.HeaderCell>Amount</Table.HeaderCell>
                   <Table.HeaderCell>Edit</Table.HeaderCell>
+                  <Table.HeaderCell>Delete</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {this.props.incomes.map((income) => <IncomeItem key={income._id} income={income} />)}
+                {Incomes.find({}).fetch().map((item, i) => <Table.Row>
+                      <Table.Cell key={i}>{item.date.toDateString()}</Table.Cell>
+                      <Table.Cell key={i}>{item.name}</Table.Cell>
+                      <Table.Cell key={i}>$ {item.amount}</Table.Cell>
+                      <Table.Cell key={i}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
+                      <Table.Cell key={i}><Button id="deletebutton" onClick={this.delete}>Delete</Button></Table.Cell></Table.Row>)}
               </Table.Body>
             </Table>
           </Container>
