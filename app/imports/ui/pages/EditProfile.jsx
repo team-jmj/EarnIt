@@ -11,31 +11,55 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Profiles, ProfileSchema } from '../../api/profile/profile';
+import { Redirect } from 'react-router-dom';
 
 /** Renders the Page for editing a single document. */
 class EditProfile extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.submit = this.submit.bind(this);
+    this.insertCallback = this.insertCallback.bind(this);
+    this.formRef = null;
+    this.state = { redirectToReferer: false };
+  }
+
+  /** Notify the user of the results of the submit. If successful, clear the form. */
+  insertCallback(error) {
+    if (error) {
+      Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` });
+    } else {
+      Bert.alert({ type: 'success', message: 'Update succeeded' });
+      this.formRef.reset();
+      this.setState({ redirectToReferer: true });
+    }
+  }
 
   /** On successful submit, insert the data. */
   submit(data) {
     const { user, savings, owner, _id } = data;
 
-    Profiles.update(_id, { $set: { user, savings, owner } }, (error) => (error ?
-        Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` }) :
-        Bert.alert({ type: 'success', message: 'Update succeeded' })));
+    Profiles.update(_id, { $set: { user, savings, owner } }, this.insertCallback);
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+      return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
   renderPage() {
+    const { from } = { from: { pathname: '/profile' } };
+
+    if (this.state.redirectToReferer) {
+      return <Redirect to={ from }/>;
+    }
+
     return (
         <Grid container centered>
           <Grid.Column>
             <Header as="h2" textAlign="center">Edit Profile</Header>
-            <AutoForm schema={ProfileSchema} onSubmit={this.submit} model={this.props.doc}>
+            <AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
                 <TextField name='user'/>
                 <NumField name='savings'/>

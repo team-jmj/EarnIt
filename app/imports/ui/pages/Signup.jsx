@@ -36,7 +36,7 @@ export default class Signup extends React.Component {
       if (err) {
         this.setState({ error: err.reason });
       } else {
-        Profiles.insert({ owner: email });
+        // Profiles.insert({ user: '', savings: '', owner: email });
         this.setState({ error: '', redirectToReferer: true });
       }
     });

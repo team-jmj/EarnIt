@@ -8,8 +8,8 @@ import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { Meteor } from 'meteor/meteor';
-import { Profiles, ProfileSchema } from '../../api/profile/profile';
 import { Redirect } from 'react-router-dom';
+import { Profiles, ProfileSchema } from '../../api/profile/profile';
 
 /** Renders the Page for adding a document. */
 class InputProfileData extends React.Component {

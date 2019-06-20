@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Table, Header, Loader, Grid, Segment, Button } from 'semantic-ui-react';
+import { Container, Table, Header, Loader, Grid, Segment, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Profiles } from '/imports/api/profile/profile';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -24,27 +24,28 @@ class Profile extends React.Component {
   /** Bind 'this' so that a ref to the Form can be saved in formRef and communicated between render() and submit(). */
   constructor(props) {
     super(props);
-    this.submit = this.submit.bind(this);
-    this.insertCallback = this.insertCallback.bind(this);
-    this.formRef = null;
+    // this.submit = this.submit.bind(this);
+    // this.insertCallback = this.insertCallback.bind(this);
+    // this.formRef = null;
   }
 
-  /** Notify the user of the results of the submit. If successful, clear the form. */
-  insertCallback(error) {
-    if (error) {
-      Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
-    } else {
-      Bert.alert({ type: 'success', message: 'Add succeeded' });
-      this.formRef.reset();
-    }
-  }
-
-  /** On submit, insert the data. */
-  submit(data) {
-    const { user, savings } = data;
-
-    Profiles.insert({ user, savings }, this.insertCallback);
-  }
+  // /** Notify the user of the results of the submit. If successful, clear the form. */
+  // insertCallback(error) {
+  //   if (error) {
+  //     Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
+  //   } else {
+  //     Bert.alert({ type: 'success', message: 'Add succeeded' });
+  //     this.formRef.reset();
+  //   }
+  // }
+  //
+  // /** On submit, insert the data. */
+  // submit(data) {
+  //   const { user, savings, _id } = data;
+  //   // const _id = this.props.profiles._id;
+  //
+  //   Profiles.update(_id, { user, savings }, this.insertCallback);
+  // }
 
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
@@ -56,23 +57,15 @@ class Profile extends React.Component {
     return (
           <Container>
             <Grid container centered>
-              <Grid.Column>
+              <Grid.Column id="grid_1">
                 <Header as="h2">Profile</Header>
-                <Segment>
-                  User: {this.props.profiles.user}
+                <Segment id="profile_segment">
+                  <Icon name="user"/>User : {this.props.profiles.user}
                   <hr/>
-                  Monthly Savings Goal: {this.props.profiles.savings}
+                  <Icon name="dollar"/>Monthly Savings Goal : {this.props.profiles.savings}
                   <hr/>
                 </Segment>
-                <Button id='editbutton' as={Link} to={`/edit/${this.props.profiles._id}`}>Edit</Button>
-                {/*<AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>*/}
-                {/*<Segment>*/}
-                {/*<NumField name="savings" label="Monthly Savings Goal: "/>*/}
-                {/*<SubmitField value='Add'/>*/}
-                {/*<ErrorsField/>*/}
-                {/*<HiddenField name='user' value={Meteor.user().username}/>*/}
-                {/*</Segment>*/}
-                {/*</AutoForm>*/}
+                <Button id="editbutton" as={Link} to={`/edit/${this.props.profiles._id}`}>Edit</Button>
               </Grid.Column>
             </Grid>
             <Header as="h2">Income History</Header>
@@ -101,8 +94,9 @@ Profile.propTypes = {
 export default withTracker(() => {
   // Get access to Profile documents.
   const subscription = Meteor.subscribe('Profiles');
+
   return {
-    profiles: Profiles.find({}).fetch(),
+    profiles: Profiles.findOne({}),
     ready: subscription.ready(),
   };
 })(Profile);
