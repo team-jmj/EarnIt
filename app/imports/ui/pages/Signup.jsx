@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment, Modal, Icon, Button} from 'semantic-ui-react';
 import { Accounts } from 'meteor/accounts-base';
+import { Bert } from 'meteor/themeteorchef:bert';
+import { Profiles } from '../../api/profile/profile';
 
 /**
  * Signup component is similar to signin component, but we attempt to create a new user instead.
@@ -20,6 +22,7 @@ export default class Signup extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+
   /** Update the form controls each time the user interacts with them. */
   handleChange(e, { name, value }) {
     this.setState({ [name]: value });
@@ -33,6 +36,7 @@ export default class Signup extends React.Component {
       if (err) {
         this.setState({ error: err.reason });
       } else {
+        Profiles.insert({ owner: email });
         this.setState({ error: '', redirectToReferer: true });
       }
     });
@@ -40,7 +44,7 @@ export default class Signup extends React.Component {
 
   /** Display the signup form. */
   render() {
-    const { from } = { from: { pathname: '/' } };
+    const { from } = { from: { pathname: '/inputprofile' } };
     const maxLength = 6;
 
     console.log(this.state.redirectToReferer)

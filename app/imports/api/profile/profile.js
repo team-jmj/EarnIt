@@ -9,19 +9,16 @@ const Profiles = new Mongo.Collection('Profiles');
 const ProfileSchema = new SimpleSchema({
   user: {
     type: String,
+    optional: true,
   },
   savings: {
     type: Number,
-  },
-  owner: String,
-  income: {
-    type: Array,
     optional: true,
   },
-  'income.$': Object,
-  'income.$.date': Date,
-  'income.$.name': String,
-  'income.$.amount': Number,
+  owner: {
+    type: String,
+    optional: true,
+  },
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

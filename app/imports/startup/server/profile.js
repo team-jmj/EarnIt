@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 // import { Roles } from 'meteor/alanning:roles';
-import { Profiles } from '../../api/profile/profile.js';
+import { Profiles } from '../../api/profile/profile';
 
 /** Initialize the database with a default data document. */
 function addData(data) {
@@ -17,11 +17,11 @@ if (Profiles.find().count() === 0) {
 }
 
 /** This subscription publishes only the documents associated with the logged in user */
-Meteor.publish('Profile', function publish() {
+Meteor.publish('Profiles', function publish() {
   if (this.userId) {
     const username = Meteor.users.findOne(this.userId).username;
 
-    return Profiles.find({ owner: username });
+    return Profiles.find({ user: username });
   }
 
   return this.ready();

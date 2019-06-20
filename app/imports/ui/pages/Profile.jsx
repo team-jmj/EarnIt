@@ -1,6 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Container, Table, Header, Loader, Grid, Segment } from 'semantic-ui-react';
+import { Container, Table, Header, Loader, Grid, Segment, Button } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { Profiles } from '/imports/api/profile/profile';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
@@ -26,11 +27,6 @@ class Profile extends React.Component {
     this.submit = this.submit.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
     this.formRef = null;
-    this.state = {
-      date: 'income.$.date',
-      name: 'income.$.name',
-      amount: 'income.$.amount',
-    };
   }
 
   /** Notify the user of the results of the submit. If successful, clear the form. */
@@ -45,11 +41,11 @@ class Profile extends React.Component {
 
   /** On submit, insert the data. */
   submit(data) {
-    const { income } = data;
-    const owner = Meteor.user().username;
+    const { user, savings } = data;
 
-    Profiles.insert({ income, owner }, this.insertCallback);
+    Profiles.insert({ user, savings }, this.insertCallback);
   }
+
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
     return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
@@ -58,41 +54,40 @@ class Profile extends React.Component {
   // /** Render the page once subscriptions have been received. */
   renderPage() {
     return (
-        <Container>
-          <Grid container centered>
-            <Grid.Column>
-              <Header as="h2">Add Income</Header>
-              <AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>
-                {/*<Segment>*/}
-                  {/*<TextField name="user"/>*/}
-                  {/*<NumField name="savings"/>*/}
-                  {/*<SubmitField value='Submit'/>*/}
-                  {/*<ErrorsField/>*/}
-                  {/*<HiddenField name='owner' value='fakeuser@foo.com'/>*/}
-                {/*</Segment>*/}
+          <Container>
+            <Grid container centered>
+              <Grid.Column>
+                <Header as="h2">Profile</Header>
                 <Segment>
-                  <ListField name="income"/>
-                  <SubmitField value='Add'/>
-                  <ErrorsField/>
-                  <HiddenField name='owner' value='fakeuser@foo.com'/>
+                  User: {this.props.profiles.user}
+                  <hr/>
+                  Monthly Savings Goal: {this.props.profiles.savings}
+                  <hr/>
                 </Segment>
-              </AutoForm>
-            </Grid.Column>
-          </Grid>
-          <Header as="h2">Income History</Header>
-          <Table celled>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Date</Table.HeaderCell>
-                <Table.HeaderCell>Name</Table.HeaderCell>
-                <Table.HeaderCell>Amount</Table.HeaderCell>
-                <Table.HeaderCell>Edit</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-
-          </Table>
-        </Container>
-    );
+                <Button id='editbutton' as={Link} to={`/edit/${this.props.profiles._id}`}>Edit</Button>
+                {/*<AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>*/}
+                {/*<Segment>*/}
+                {/*<NumField name="savings" label="Monthly Savings Goal: "/>*/}
+                {/*<SubmitField value='Add'/>*/}
+                {/*<ErrorsField/>*/}
+                {/*<HiddenField name='user' value={Meteor.user().username}/>*/}
+                {/*</Segment>*/}
+                {/*</AutoForm>*/}
+              </Grid.Column>
+            </Grid>
+            <Header as="h2">Income History</Header>
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Date</Table.HeaderCell>
+                  <Table.HeaderCell>Name</Table.HeaderCell>
+                  <Table.HeaderCell>Amount</Table.HeaderCell>
+                  <Table.HeaderCell>Edit</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+            </Table>
+          </Container>
+        );
   }
 }
 
@@ -105,7 +100,7 @@ Profile.propTypes = {
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Profile documents.
-  const subscription = Meteor.subscribe('Profile');
+  const subscription = Meteor.subscribe('Profiles');
   return {
     profiles: Profiles.find({}).fetch(),
     ready: subscription.ready(),
