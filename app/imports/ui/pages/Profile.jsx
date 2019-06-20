@@ -50,11 +50,8 @@ class Profile extends React.Component {
   }
 
   /** On click, delete the data. */
-  delete() {
-    const id = this.props.incomes._id;
-
+  delete(id) {
     Incomes.remove({_id: id});
-    console.log("delete function reached");
   }
 
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -106,7 +103,7 @@ class Profile extends React.Component {
                       <Table.Cell key={i}>{item.name}</Table.Cell>
                       <Table.Cell key={i}>$ {item.amount}</Table.Cell>
                       <Table.Cell key={i}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
-                      <Table.Cell key={i}><Button id="deletebutton" onClick={this.delete}>Delete</Button></Table.Cell></Table.Row>)}
+                      <Table.Cell key={i}><Button onClick={()=> this.delete(item._id)}>Delete</Button></Table.Cell></Table.Row>)}
               </Table.Body>
             </Table>
           </Container>
