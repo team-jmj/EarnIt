@@ -8,5 +8,6 @@ Meteor.publish('UserExpense', function publish() {
 
     return UserExpense.find({ user: username });
   }
+
   return this.ready();
 });
