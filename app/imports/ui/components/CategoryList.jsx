@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, Card, Button, Modal, Container, Segment, Table } from 'semantic-ui-react';
+import { Confirm, Icon, Card, Button, Modal, Container, Segment, Table } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import TextField from 'uniforms-semantic/TextField';
@@ -21,7 +21,11 @@ class CategoryItem extends React.Component {
     this.categoryRemove = this.categoryRemove.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
     this.updateAlert = this.updateAlert.bind(this);
+    this.state = { open: false };
   }
+
+  open = () => this.setState({ open: true });
+  close = () => this.setState({ open: false });
 
   insertCallback(error) {
     if (error) {
@@ -83,7 +87,7 @@ class CategoryItem extends React.Component {
 
   render() {
     return (
-        <Card color="blue">
+        <Card>
             <Card.Content >
               <Card.Header style={{margin: '5%'}}>{this.props.category.category}</Card.Header>
               <Card.Description style={{margin: '5%'}}>{this.props.category.description}</Card.Description>
@@ -158,7 +162,17 @@ class CategoryItem extends React.Component {
                 </Modal.Content>
               </Modal>
             </Card.Content>
-          <Button basic compact icon onClick={() => this.categoryRemove(this.props.category._id)}>Remove <Icon name="delete"/></Button>
+          <div>
+            <Button basic fluid icon onClick={this.open} color="red">Remove <Icon name="delete"/></Button>
+            <Confirm
+                open={this.state.open}
+                onCancel={this.close}
+                content="Are you sure you want to remove this category?"
+                cancelButton="Cancel"
+                confirmButton="Remove the category"
+                size='large'
+                onConfirm={() => this.categoryRemove(this.props.category._id)} />
+          </div>
         </Card>
     );
   }
