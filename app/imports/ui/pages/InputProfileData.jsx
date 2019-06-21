@@ -55,8 +55,8 @@ class InputProfileData extends React.Component {
             <Header as="h2" textAlign="center">Create a Profile</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>
               <Segment>
-                <TextField name="user"/>
-                <NumField name="savings"/>
+                <TextField name="user" label="Name:"/>
+                <NumField name="savings" label="Monthly Savings Goal:"/>
                 <SubmitField value="Create"/>
                 <ErrorsField/>
                 <HiddenField name="owner"/>
