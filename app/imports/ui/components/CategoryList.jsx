@@ -7,6 +7,7 @@ import DateField from 'uniforms-semantic/DateField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import { UserExpense, UserExpenseSchema } from '/imports/api/userExpense/userExpense';
+import { ExpenseCategory } from '/imports/api/expenseCategory/expenseCategory';
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -17,7 +18,9 @@ class CategoryItem extends React.Component {
     super(props);
     this.submit = this.submit.bind(this);
     this.remove = this.remove.bind(this);
+    this.categoryRemove = this.categoryRemove.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
+    this.updateAlert = this.updateAlert.bind(this);
   }
 
   insertCallback(error) {
@@ -45,6 +48,14 @@ class CategoryItem extends React.Component {
     }
   }
 
+  categoryRemoveAlert(error) {
+    if (error) {
+      Bert.alert({ type: 'danger', message: `Remove failed: ${error.message}` });
+    } else {
+      Bert.alert({ type: 'danger', message: 'Category was removed!' });
+    }
+  }
+
   submit(data) {
     const { amount_spent, description, category_id, date, category_name } = data;
     const user = Meteor.user().username;
@@ -63,14 +74,21 @@ class CategoryItem extends React.Component {
     UserExpense.remove({_id: id}, this.removeAlert);
   }
 
+  categoryRemove(id) {
+    for (let userExpense of UserExpense.find({category_id: id}).fetch()) {
+      UserExpense.remove({_id: userExpense._id});
+    }
+    ExpenseCategory.remove({_id: id}, this.categoryRemoveAlert);
+  }
+
   render() {
     return (
         <Card color="blue">
             <Card.Content >
               <Card.Header style={{margin: '5%'}}>{this.props.category.category}</Card.Header>
               <Card.Description style={{margin: '5%'}}>{this.props.category.description}</Card.Description>
-              <Modal trigger={<Button basic compact size="mini" color="red" style={{margin: '5%'}}>Add Spending</Button>} closeIcon>
-                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#FE3939', color: '#ffffff' }}>Add Spending - {this.props.category.category}</Modal.Header>
+              <Modal trigger={<Button basic compact size="mini" color="blue" style={{margin: '5%'}}>Add Spending</Button>} closeIcon>
+                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#0E6EB8', color: '#ffffff' }}>Add Spending - {this.props.category.category}</Modal.Header>
                 <Modal.Content>
                   <Modal.Description>
                       <AutoForm ref={(ref) => { this.formRef = ref; }}
@@ -85,7 +103,7 @@ class CategoryItem extends React.Component {
                           <HiddenField name="category_name" value={this.props.category.category}/>
                         </Segment>
                         <Container textAlign="center">
-                          <Button basic compact size="large" color="red">Add Expense</Button>
+                          <Button basic compact size="large" color="blue">Add Expense</Button>
                         </Container>
                       </AutoForm>
                   </Modal.Description>
@@ -110,8 +128,8 @@ class CategoryItem extends React.Component {
                             <Table.Cell key={curr}>{item.amount_spent}</Table.Cell>
                             <Table.Cell key={curr}>{item.description}</Table.Cell>
                             <Table.Cell key={curr}>
-                              <Modal trigger={<Button basic compact icon color="blue" content="Blue">Edit<Icon name="edit outline"/></Button>} closeIcon>
-                                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#0E6EB8', color: '#ffffff' }}>Editing Spending</Modal.Header>
+                              <Modal trigger={<Button basic compact icon color="yellow" content="Blue">Edit<Icon name="edit outline"/></Button>} closeIcon>
+                                <Modal.Header style={{ textAlign: 'center', backgroundColor: '#FFD700', color: '#ffffff' }}>Editing Spending</Modal.Header>
                                 <Modal.Content>
                                   <Modal.Description>
                                     <AutoForm ref={(ref) => { this.formRef = ref; }}
@@ -126,7 +144,7 @@ class CategoryItem extends React.Component {
                                         <HiddenField name="category_name" value={this.props.category.category}/>
                                       </Segment>
                                       <Container textAlign="center">
-                                        <Button basic compact size="large" color="blue">Edit Expense</Button>
+                                        <Button basic compact size="large" color="yellow">Edit Expense</Button>
                                       </Container>
                                     </AutoForm>
                                   </Modal.Description>
@@ -140,6 +158,7 @@ class CategoryItem extends React.Component {
                 </Modal.Content>
               </Modal>
             </Card.Content>
+          <Button basic compact icon onClick={() => this.categoryRemove(this.props.category._id)}>Remove <Icon name="delete"/></Button>
         </Card>
     );
   }
