@@ -4,15 +4,10 @@ import { Container, Table, Header, Loader, Grid, Segment, Button, Icon } from 's
 import { Link } from 'react-router-dom';
 import { Profiles } from '/imports/api/profile/profile';
 import { Incomes, IncomeSchema } from '/imports/api/income/income';
-import IncomeItem  from '/imports/ui/components/IncomeItem';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import DateField from 'uniforms-semantic/DateField';
-import ListAddField from 'uniforms-semantic/ListAddField';
-import ListField from 'uniforms-semantic/ListField';
-import NestField from 'uniforms-semantic/NestField';
-import ListItemField from 'uniforms-semantic/ListItemField';
 import TextField from 'uniforms-semantic/TextField';
 import NumField from 'uniforms-semantic/NumField';
 import SubmitField from 'uniforms-semantic/SubmitField';
@@ -29,6 +24,7 @@ class Profile extends React.Component {
     this.delete = this.delete.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
     this.formRef = null;
+    this.newSavings = 0;
   }
 
   /** Notify the user of the results of the submit. If successful, clear the form. */
@@ -37,6 +33,14 @@ class Profile extends React.Component {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'success', message: 'Add succeeded' });
+      Profiles.update(this.props.profiles._id, {$set: {savings: this.newSavings}}, (updateError, num) => {
+        if (updateError) {
+          console.log(updateError);
+        } else {
+          console.log(num);
+        }
+      });
+      console.log(this.props.profiles.savings);
       this.formRef.reset();
     }
   }
@@ -45,6 +49,7 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
+    this.newSavings = this.props.profiles.savings - amount;
 
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
   }
@@ -113,7 +118,7 @@ class Profile extends React.Component {
 
 /** Require an array of Profile documents in the props. */
 Profile.propTypes = {
-  profiles: PropTypes.array,
+  profiles: PropTypes.object,
   incomes: PropTypes.array,
   ready: PropTypes.bool.isRequired,
 };

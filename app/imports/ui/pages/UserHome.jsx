@@ -1,10 +1,20 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { Container, Grid } from 'semantic-ui-react';
+import { withTracker } from 'meteor/react-meteor-data';
+import PropTypes from 'prop-types';
+import { Profiles } from '/imports/api/profile/profile';
+import { Container, Grid, Loader } from 'semantic-ui-react';
 import CanvasJSReact from '../../canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class UserHome extends React.Component {
+
+  /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
+    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+  }
+
+  renderPage() {
     let date = new Date();
     const year = date.getFullYear();
     const month = date.toLocaleString('en-us', { month: 'long' });
@@ -60,7 +70,7 @@ class UserHome extends React.Component {
     return (
         <Container textAlign='center'>
           <h1>{date}</h1>
-          <h1>This month you've saved: $</h1>
+          <h1>This month you've saved: ${this.props.profile.savings}</h1>
           <Grid centered container>
             <Grid.Column width={8}>
               <CanvasJSChart options={options1}
@@ -78,7 +88,21 @@ class UserHome extends React.Component {
   }
 }
 
-export default UserHome;
+UserHome.propTypes = {
+  ready: PropTypes.bool.isRequired,
+  profile: PropTypes.object,
+};
+
+/** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
+export default withTracker(() => {
+  // Get access to Profile documents.
+  const subscription = Meteor.subscribe('ProfilesAndIncomes');
+
+  return {
+    profile: Profiles.findOne({}),
+    ready: subscription.ready(),
+  };
+})(UserHome);
 
 
 
