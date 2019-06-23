@@ -14,3 +14,16 @@ Meteor.publish('ProfilesAndIncomes', function publish() {
 
   return this.ready();
 });
+
+if (Profiles.find().count() === 0) {
+  if (Meteor.settings.defaultData) {
+    console.log('Creating default profiles.');
+    Meteor.settings.defaultData.map(data => addData(data));
+  }
+}
+
+/** Initialize the database with a default data document. */
+function addData(data) {
+  console.log(`  Adding: ${data.user}'s profile`);
+  Profiles.insert(data);
+}
