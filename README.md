@@ -4,6 +4,8 @@ EarnIt is a Meteor web application that keeps track of the user's monthly income
 
 ## Team Members
 * Mai Abe
+  * Completed Tasks (6/24/19):
+    * ....
   * Completed Tasks (6/16/19):
     * Set up Profile Page, insert user income history table
   * Completed Tasks (6/9/19):
@@ -14,6 +16,8 @@ EarnIt is a Meteor web application that keeps track of the user's monthly income
     * Incorporate user income data into the database
     * Insert an editable profile data input section in the profile page along with the income input
 * Julie Chai
+  * Completed Tasks (6/24/19):
+    * ....
   * Completed Tasks (6/16/19):
     * Implement forgot password & reset password features
   * Completed Tasks (6/9/19):
@@ -25,15 +29,20 @@ EarnIt is a Meteor web application that keeps track of the user's monthly income
     * Continue to update app overview
     * Incorporate user data into user home
 * Jun Okabe
+  * Completed Tasks (6/24/19):
+    * Expense Page Setup (expense catgories and the user spending) has been completed
   * Completed Tasks (6/16/19):
     * Setup Expense Page (Schema, etc.) -> Not Fully Functional
   * Completed Tasks (6/9/19):
     * Setup the design of signup page
     * Setup majority of the needed security features on the signup page, such as password requirements and the presence of a privacy policy for the new user to view
   * Current Tasks:
-    * Get a fully functional Expense Page (without any security vulnerabilities)
     * Work on the Login page (additional security features, such as prevent repeated attempts to login)
     * Work on additional security features on the Signup page
+
+## Completed Tasks (6/24/19)
+* Expense Page Functionality Completed
+
 
 ## Completed Tasks (6/16/19)
 * Setup Expense Page (Schema, etc.) -> Not Fully Functional yet
@@ -49,7 +58,6 @@ EarnIt is a Meteor web application that keeps track of the user's monthly income
 * Update app overview
 * Incorporate user data into user home
 * Continue implementing login/signup security features
-* Implement full features (and security features) in the Expense page
 * Implement user income input feature in the Profile page
 * Associate the user input to the database
 
