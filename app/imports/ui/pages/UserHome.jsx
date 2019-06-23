@@ -24,8 +24,6 @@ class UserHome extends React.Component {
       return {"y": Math.round(100 * (x.expenses / this.props.profile.expenses)), "label": x.category}
     });
 
-    console.log(data);
-
     const options1 = {
       animationEnabled: true,
       theme: "light1", // "light1", "dark1", "dark2"

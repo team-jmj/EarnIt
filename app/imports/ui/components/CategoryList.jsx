@@ -99,7 +99,7 @@ class CategoryItem extends React.Component {
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item, curr) => <Table.Row><Table.Cell key={curr}>{item.date.toDateString()}</Table.Cell>
+                          {UserExpense.find({category_id: this.props.category._id }).fetch().map((item, curr) => <Table.Row><Table.Cell key={curr}>{item.date.toISOString().split("T")[0]}</Table.Cell>
                             <Table.Cell key={curr}>{item.amount_spent}</Table.Cell><Table.Cell key={curr}>{item.description}</Table.Cell></Table.Row>)}
                       </Table.Body>
                     </Table>

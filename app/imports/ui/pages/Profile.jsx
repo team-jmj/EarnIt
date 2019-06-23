@@ -32,14 +32,13 @@ class Profile extends React.Component {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'success', message: 'Add succeeded' });
-      Profiles.update(this.props.profiles._id, {$set: {savings: this.newSavings}}, (updateError, num) => {
+      Profiles.update(this.props.profile._id, {$set: {savings: this.newSavings}}, (updateError, num) => {
         if (updateError) {
           console.log(updateError);
         } else {
           console.log(num);
         }
       });
-      console.log(this.props.profiles.savings);
       this.formRef.reset();
     }
   }
@@ -48,15 +47,23 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
-    this.newSavings = this.props.profiles.savings + amount;
+    this.newSavings = this.props.profile.savings + amount;
 
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
   }
 
   /** On click, delete the data. */
   delete(id) {
+    const amount = Incomes.findOne({_id: id}).amount;
+    console.log(id);
+    Profiles.update(this.props.profile._id, {$inc: {savings: -1 * amount}, }, (updateError, num) => {
+      if (updateError) {
+        console.log("(Delete Income) " + updateError);
+      } else {
+        console.log("Delete Income success: " + num);
+      }
+    });
     Incomes.remove({_id: id});
-
   }
 
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -72,11 +79,11 @@ class Profile extends React.Component {
               <Grid.Column>
                 <Header as="h1" textAlign="center">Your Profile</Header>
                 <Segment id="profile_segment">
-                  <Icon name="user"/>User : {this.props.profiles.user}
+                  <Icon name="user"/>User : {this.props.profile.user}
                   <hr/>
-                  <Icon name="dollar"/>Monthly Savings Goal : {this.props.profiles.goal}
+                  <Icon name="dollar"/>Monthly Savings Goal : {this.props.profile.goal}
                   <hr/>
-                  <Button id="editbutton" as={Link} to={`/edit/${this.props.profiles._id}`}>Edit</Button>
+                  <Button id="editbutton" as={Link} to={`/edit/${this.props.profile._id}`}>Edit</Button>
                 </Segment>
               </Grid.Column>
               </Grid>
@@ -104,7 +111,7 @@ class Profile extends React.Component {
               </Table.Header>
               <Table.Body>
                 {Incomes.find({}).fetch().map((item, i) => <Table.Row>
-                      <Table.Cell key={i}>{item.date.toDateString()}</Table.Cell>
+                      <Table.Cell key={i}>{item.date.toISOString().split("T")[0]}</Table.Cell>
                       <Table.Cell key={i}>{item.name}</Table.Cell>
                       <Table.Cell key={i}>$ {item.amount}</Table.Cell>
                       <Table.Cell key={i}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
@@ -118,7 +125,7 @@ class Profile extends React.Component {
 
 /** Require an array of Profile documents in the props. */
 Profile.propTypes = {
-  profiles: PropTypes.object,
+  profile: PropTypes.object,
   incomes: PropTypes.array,
   ready: PropTypes.bool.isRequired,
 };
@@ -129,7 +136,7 @@ export default withTracker(() => {
   const subscription = Meteor.subscribe('ProfilesAndIncomes');
 
   return {
-    profiles: Profiles.findOne({}),
+    profile: Profiles.findOne({}),
     incomes: Incomes.find({}).fetch(),
     ready: subscription.ready(),
   };
