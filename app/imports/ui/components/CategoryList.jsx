@@ -3,10 +3,13 @@ import { Card, Button, Modal, Container, Segment, Table } from 'semantic-ui-reac
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import TextField from 'uniforms-semantic/TextField';
+import NumField from 'uniforms-semantic/NumField';
 import DateField from 'uniforms-semantic/DateField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import { UserExpense, UserExpenseSchema } from '/imports/api/userExpense/userExpense';
+import { ExpenseCategory } from '/imports/api/expenseCategory/expenseCategory';
+import { Profiles } from '/imports/api/profile/profile';
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -17,6 +20,7 @@ class CategoryItem extends React.Component {
     super(props);
     this.submit = this.submit.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
+    this.newExp = 0;
   }
 
   insertCallback(error) {
@@ -24,6 +28,23 @@ class CategoryItem extends React.Component {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'success', message: 'Add Success!' });
+
+      Profiles.update(this.props.profile._id, {$inc: {expenses: this.newExp, savings: -this.newExp}, }, (updateError, num) => {
+        if (updateError) {
+          console.log("(Profile) " + updateError);
+        } else {
+          console.log("Profile success: " + num);
+        }
+      });
+
+      ExpenseCategory.update(this.props.category._id, {$inc: {expenses: this.newExp}}, (updateError, num) => {
+        if (updateError) {
+          console.log("(Category) " + updateError);
+        } else {
+          console.log("Category success: " + num);
+        }
+      });
+
       this.formRef.reset();
     }
   }
@@ -31,6 +52,7 @@ class CategoryItem extends React.Component {
   submit(data) {
     const { amount_spent, description, category_id, date, category_name } = data;
     const user = Meteor.user().username;
+    this.newExp = amount_spent;
 
     UserExpense.insert({ user,
       category_id, amount_spent, description, date, category_name}, this.insertCallback);
@@ -49,8 +71,8 @@ class CategoryItem extends React.Component {
                       <AutoForm ref={(ref) => { this.formRef = ref; }}
                                 schema={UserExpenseSchema} onSubmit={this.submit}>
                         <Segment>
-                          <DateField name="date" label="Date of Spending:"/>
-                          <TextField name="amount_spent" label="Input Amount Spent:"/>
+                          <TextField type='date' name="date" label="Date of Spending:"/>
+                          <NumField name="amount_spent" label="Input Amount Spent:"/>
                           <TextField name="description" label="Description:"/>
                           <ErrorsField/>
                           <HiddenField name="user" value={Meteor.user().username}/>
@@ -93,14 +115,19 @@ class CategoryItem extends React.Component {
 /** Require a document to be passed to this component. */
 CategoryItem.propTypes = {
   category: PropTypes.object,
+  profile: PropTypes.object,
 };
 
 // export default CategoryItem;
 export default withTracker(() => {
-  const subscription = Meteor.subscribe('UserExpense');
+  const expenseSub = Meteor.subscribe('UserExpense');
+  const profileSub = Meteor.subscribe('ProfilesAndIncomes');
+  const catSub = Meteor.subscribe('ExpenseCategory');
 
   return {
     expenses: UserExpense.find({}).fetch(),
-    ready: subscription.ready(),
+    profile: Profiles.findOne(),
+    // categories: ExpenseCategory.findOne({"category": this.props.category.category}).fetch(),
+    ready: expenseSub.ready() && profileSub.ready() && catSub.ready(),
   };
 })(CategoryItem);

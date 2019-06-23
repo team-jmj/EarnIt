@@ -3,6 +3,7 @@ import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Profiles } from '/imports/api/profile/profile';
+import { ExpenseCategory } from '/imports/api/expenseCategory/expenseCategory';
 import { Container, Grid, Loader } from 'semantic-ui-react';
 import CanvasJSReact from '../../canvasjs.react';
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -19,6 +20,12 @@ class UserHome extends React.Component {
     const year = date.getFullYear();
     const month = date.toLocaleString('en-us', { month: 'long' });
 
+    const data = this.props.categories.map(x => {
+      return {"y": Math.round(100 * (x.expenses / this.props.profile.expenses)), "label": x.category}
+    });
+
+    console.log(data);
+
     const options1 = {
       animationEnabled: true,
       theme: "light1", // "light1", "dark1", "dark2"
@@ -32,14 +39,7 @@ class UserHome extends React.Component {
         indexLabelPlacement: "outside",
         indexLabel: "{label}: {y}%",
         startAngle: -90,
-        dataPoints: [
-          { y: 20, label: "Bills" },
-          { y: 24, label: "Rent" },
-          { y: 20, label: "Food" },
-          { y: 14, label: "School" },
-          { y: 12, label: "Leisure" },
-          { y: 10, label: "Other" }
-        ]
+        dataPoints: data
       }]
     };
     const options2 = {
@@ -55,14 +55,7 @@ class UserHome extends React.Component {
         indexLabelPlacement: "outside",
         indexLabel: "{label}: {y}%",
         startAngle: -90,
-        dataPoints: [
-          { y: 20, label: "Bills" },
-          { y: 24, label: "Rent" },
-          { y: 20, label: "Food" },
-          { y: 14, label: "School" },
-          { y: 12, label: "Leisure" },
-          { y: 10, label: "Other" }
-        ]
+        dataPoints: data
       }]
     };
 
@@ -91,16 +84,19 @@ class UserHome extends React.Component {
 UserHome.propTypes = {
   ready: PropTypes.bool.isRequired,
   profile: PropTypes.object,
+  categories: PropTypes.array,
 };
 
 /** withTracker connects Meteor data to React components. https://guide.meteor.com/react.html#using-withTracker */
 export default withTracker(() => {
   // Get access to Profile documents.
-  const subscription = Meteor.subscribe('ProfilesAndIncomes');
+  const profileSub = Meteor.subscribe('ProfilesAndIncomes');
+  const expenseSub = Meteor.subscribe('ExpenseCategory')
 
   return {
     profile: Profiles.findOne({}),
-    ready: subscription.ready(),
+    categories: ExpenseCategory.find({}).fetch(),
+    ready: profileSub.ready() && expenseSub.ready(),
   };
 })(UserHome);
 

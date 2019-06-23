@@ -37,9 +37,9 @@ class EditProfile extends React.Component {
 
   /** On successful submit, insert the data. */
   submit(data) {
-    const { user, savings, owner, _id } = data;
+    const { user, goal, owner, _id } = data;
 
-    Profiles.update(_id, { $set: { user, savings, owner } }, this.insertCallback);
+    Profiles.update(_id, { $set: { user, goal, owner } }, this.insertCallback);
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -62,7 +62,7 @@ class EditProfile extends React.Component {
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
                 <TextField name='user'/>
-                <NumField name='savings'/>
+                <NumField name='goal'/>
                 <SubmitField value='Submit'/>
                 <ErrorsField/>
                 <HiddenField name='owner' />

@@ -7,7 +7,6 @@ import { Incomes, IncomeSchema } from '/imports/api/income/income';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
-import DateField from 'uniforms-semantic/DateField';
 import TextField from 'uniforms-semantic/TextField';
 import NumField from 'uniforms-semantic/NumField';
 import SubmitField from 'uniforms-semantic/SubmitField';
@@ -49,7 +48,7 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
-    this.newSavings = this.props.profiles.savings - amount;
+    this.newSavings = this.props.profiles.savings + amount;
 
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
   }
@@ -57,6 +56,7 @@ class Profile extends React.Component {
   /** On click, delete the data. */
   delete(id) {
     Incomes.remove({_id: id});
+
   }
 
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
@@ -74,7 +74,7 @@ class Profile extends React.Component {
                 <Segment id="profile_segment">
                   <Icon name="user"/>User : {this.props.profiles.user}
                   <hr/>
-                  <Icon name="dollar"/>Monthly Savings Goal : {this.props.profiles.savings}
+                  <Icon name="dollar"/>Monthly Savings Goal : {this.props.profiles.goal}
                   <hr/>
                   <Button id="editbutton" as={Link} to={`/edit/${this.props.profiles._id}`}>Edit</Button>
                 </Segment>
@@ -83,7 +83,7 @@ class Profile extends React.Component {
               <Header as="h2" textAlign="center">Add Income</Header>
                 <AutoForm ref={(ref) => { this.formRef = ref; }} schema={IncomeSchema} onSubmit={this.submit}>
                   <Segment>
-                    <DateField name='date'/>
+                    <TextField type='date' name='date'/>
                     <TextField name='name'/>
                     <NumField name='amount'/>
                     <SubmitField value='Add'/>

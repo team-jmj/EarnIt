@@ -35,10 +35,12 @@ class InputProfileData extends React.Component {
 
   /** On submit, insert the data. */
   submit(data) {
-    const { user, savings } = data;
+    const { user, goal } = data;
+    const expenses = 0;
+    const savings = 0;
     const owner = Meteor.user().username;
 
-    Profiles.insert({ user, savings, owner }, this.insertCallback);
+    Profiles.insert({ user, savings, goal, expenses, owner }, this.insertCallback);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -56,7 +58,7 @@ class InputProfileData extends React.Component {
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={ProfileSchema} onSubmit={this.submit}>
               <Segment>
                 <TextField name="user" label="Name:"/>
-                <NumField name="savings" label="Monthly Savings Goal:"/>
+                <NumField name="goal" label="Monthly Savings Goal:"/>
                 <SubmitField value="Create"/>
                 <ErrorsField/>
                 <HiddenField name="owner"/>
