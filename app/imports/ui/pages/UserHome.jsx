@@ -26,7 +26,7 @@ class UserHome extends React.Component {
 
     const options1 = {
       animationEnabled: true,
-      theme: "light1", // "light1", "dark1", "dark2"
+      theme: "light1",
       title:{
         text: month
       },
@@ -42,7 +42,7 @@ class UserHome extends React.Component {
     };
     const options2 = {
       animationEnabled: true,
-      theme: "light1", // "light1", "dark1", "dark2"
+      theme: "light1",
       title:{
         text: year
       },
@@ -89,7 +89,7 @@ UserHome.propTypes = {
 export default withTracker(() => {
   // Get access to Profile documents.
   const profileSub = Meteor.subscribe('ProfilesAndIncomes');
-  const expenseSub = Meteor.subscribe('ExpenseCategory')
+  const expenseSub = Meteor.subscribe('ExpenseCategory');
 
   return {
     profile: Profiles.findOne({}),
