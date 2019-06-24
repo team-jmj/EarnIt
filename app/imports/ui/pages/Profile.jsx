@@ -55,8 +55,7 @@ class Profile extends React.Component {
   /** On click, delete the data. */
   delete(id) {
     const amount = Incomes.findOne({_id: id}).amount;
-    console.log(id);
-    Profiles.update(this.props.profile._id, {$inc: {savings: -1 * amount}, }, (updateError, num) => {
+    Profiles.update(this.props.profile._id, {$inc: {savings: -amount}, }, (updateError, num) => {
       if (updateError) {
         console.log("(Delete Income) " + updateError);
       } else {
