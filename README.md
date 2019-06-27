@@ -2,6 +2,20 @@
 
 EarnIt is a Meteor web application that keeps track of the user's monthly income, track and categorize expenses, and allows the users to set a goal of how much they want to save each month. The EarnIt repository can be viewed [here](https://github.com/team-jmj/EarnIt).
 
+## Installation Instruction
+* Install [Meteor](https://www.meteor.com/install)
+* Download a [copy of EarnIt project](https://github.com/team-jmj/EarnIt/archive/master.zip) or clone the project using Git.
+* To update packages used in the EarnIt project, go to the app directory of the project using the cd command.
+* In the app directory, enter the following command
+```
+meteor npm install
+```
+* To run the project, enter the following command
+```
+meteor npm run start.
+```
+* The application will be available for use in [http://localhost:3000](http://localhost:3000).
+
 ## Team Members
 * Mai Abe
   * Completed Tasks (6/24/19):
