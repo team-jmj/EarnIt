@@ -12,7 +12,7 @@ meteor npm install
 ```
 * To run the project, enter the following command
 ```
-meteor npm run start.
+meteor npm run start
 ```
 * The application will be available for use in [http://localhost:3000](http://localhost:3000).
 
