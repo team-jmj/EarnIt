@@ -20,6 +20,8 @@ meteor npm run start
 
 ## Team Members
 * Mai Abe
+  * Completed Tasks (6/30/19):
+    * To be updated ...
   * Completed Tasks (6/24/19):
     * Set up InputProfileData page
     * Implement Profile page to show user data, and make it editable
@@ -34,6 +36,8 @@ meteor npm run start
     * Incorporate user income data into the database
     * Insert an editable profile data input section in the profile page along with the income input
 * Julie Chai
+  * Completed Tasks (6/30/19):
+    * To be updated ...
   * Completed Tasks (6/24/19):
     * Add and update expenses and savings fields to profile and expenses field to expense categories
     * Integrate user data to user home page and show spendings on graph
@@ -48,6 +52,8 @@ meteor npm run start
     * Continue to update app overview
     * Incorporate user data into user home
 * Jun Okabe
+  * Completed Tasks (6/30/19):
+    * To be updated ...
   * Completed Tasks (6/24/19):
     * Expense Page Setup (expense catgories and the user spending) has been completed
   * Completed Tasks (6/16/19):
@@ -58,6 +64,9 @@ meteor npm run start
   * Current Tasks:
     * Work on the Login page (additional security features, such as prevent repeated attempts to login)
     * Work on additional security features on the Signup page
+
+## Completed Tasks (6/30/19)
+* To be updated...
 
 ## Completed Tasks (6/24/19)
 * Expense Page Functionality Completed
@@ -82,3 +91,6 @@ meteor npm run start
 * Continue implementing login/signup security features
 * Categorize spendings by month and show yearly graph
 
+## License
+* EarnIt is licensed under the Apache-2.0 License.
+* For more information, please view the [LICENSE](https://github.com/team-jmj/EarnIt/blob/master/LICENSE)
