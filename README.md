@@ -1,8 +1,8 @@
 # EarnIt
 EarnIt is a personal finance web application. This web application is designed to keep track of the user's monthly income, tracks and categorizes user spendings, and allows the users to set a goal of how much they want to save each month. EarnIt is a simple solution to help motivate you to meet your financial goals.
 
-The EarnIt GitHub repository can be viewed [https://github.com/team-jmj/EarnIt](https://github.com/team-jmj/EarnIt).
-The GitHub Wiki page of EarnIt can be viewed [https://github.com/team-jmj/EarnIt/wiki](https://github.com/team-jmj/EarnIt/wiki).
+The EarnIt GitHub repository can be viewed at [https://github.com/team-jmj/EarnIt](https://github.com/team-jmj/EarnIt).\
+The GitHub Wiki page of EarnIt can be viewed at [https://github.com/team-jmj/EarnIt/wiki](https://github.com/team-jmj/EarnIt/wiki).
 
 ## Installation Instruction
 * Install [Meteor](https://www.meteor.com/install)
