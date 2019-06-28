@@ -4,6 +4,7 @@ EarnIt is a personal finance web application. This web application is designed t
 The EarnIt GitHub repository can be viewed at [https://github.com/team-jmj/EarnIt](https://github.com/team-jmj/EarnIt).\
 The GitHub Wiki page of EarnIt can be viewed at [https://github.com/team-jmj/EarnIt/wiki](https://github.com/team-jmj/EarnIt/wiki).
 
+***
 ## Installation Instruction
 * Install [Meteor](https://www.meteor.com/install)
 * Download a [copy of EarnIt project](https://github.com/team-jmj/EarnIt/archive/master.zip) or clone the project using Git.
@@ -18,6 +19,7 @@ meteor npm run start
 ```
 * The application will be available for use in [http://localhost:3000](http://localhost:3000).
 
+***
 ## Team Members
 * Mai Abe
   * Completed Tasks (6/30/19):
@@ -65,6 +67,7 @@ meteor npm run start
     * Work on the Login page (additional security features, such as prevent repeated attempts to login)
     * Work on additional security features on the Signup page
 
+***
 ## Completed Tasks (6/30/19)
 * To be updated...
 
@@ -91,6 +94,11 @@ meteor npm run start
 * Continue implementing login/signup security features
 * Categorize spendings by month and show yearly graph
 
+***
+## Closing Thoughts
+The SDL strategy is made up of phases and each of the phases consisted of mandatory security practices that allowed us to identify and mitigate possible vulnerabilities that exist in our application. Although we were not familiar with any security practices, the SDL strategy allowed us to understand the foundational concepts that are strongly recommended (or should be mandatory) in application development. By prioritizing security practices, we were able to create a better-quality application and may have reduced the possible time and resources that is needed to patch future security vulnerabilities after the release. Due to the limited time that was available during the summer session, the application is not ready to be used as a professional application (Please note that the application was developed for educational purposes). Using the experience, we acquired during developing this application, we will be able to implement better quality code in our future projects.
+
+***
 ## License
 * EarnIt is licensed under the Apache-2.0 License.
 * For more information, please view the [LICENSE](https://github.com/team-jmj/EarnIt/blob/master/LICENSE)
