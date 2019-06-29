@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
-import { Accounts } from 'meteor/accounts-base';
 import { Container, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 
 /**
@@ -29,6 +28,7 @@ export default class Signin extends React.Component {
   /** Handle Signin submission using Meteor's account mechanism. */
   handleSubmit() {
     const { email, password } = this.state;
+
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         this.setState({ error: err.reason });
@@ -41,10 +41,12 @@ export default class Signin extends React.Component {
   /** Render the signin form. */
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
+
     // if correct authentication, redirect to page instead of login screen
     if (this.state.redirectToReferer) {
       return <Redirect to={from}/>;
     }
+
     // Otherwise return the Login form.
     return (
         <Container>
@@ -74,16 +76,13 @@ export default class Signin extends React.Component {
                       onChange={this.handleChange}
                   />
                   <Form.Button content="Submit"/>
-                  <Link to='/forgot'>Forgot Password?</Link>
+                  <Link to="/forgot">Forgot Password?</Link>
                 </Segment>
               </Form>
               <Message>
                 <Link to="/signup">Click here to Register</Link>
               </Message>
-              {this.state.error === '' ? (
-                  ''
-              ) : (
-                  <Message
+              {this.state.error === '' ? '' : (<Message
                       error
                       header="Login was not successful"
                       content={this.state.error}

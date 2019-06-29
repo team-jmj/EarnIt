@@ -32,27 +32,24 @@ class CategoryItem extends React.Component {
   }
 
   open = () => this.setState({ open: true });
+
   close = () => this.setState({ open: false });
 
   insertCallback(error) {
     if (error) {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
-      Bert.alert({ type: 'success', message: 'Spending was added!' });
+      Bert.alert({ type: 'info', message: 'Spending was added!' });
 
       Profiles.update(this.props.profile._id, {$inc: {expenses: this.newExp, savings: -this.newExp}, }, (updateError, num) => {
         if (updateError) {
-          console.log("(Profile) " + updateError);
         } else {
-          console.log("Profile success: " + num);
         }
       });
 
       ExpenseCategory.update(this.props.category._id, {$inc: {expenses: this.newExp}}, (updateError, num) => {
         if (updateError) {
-          console.log("(Category) " + updateError);
         } else {
-          console.log("Category success: " + num);
         }
       });
 
@@ -64,21 +61,17 @@ class CategoryItem extends React.Component {
     if (error) {
       Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` });
     } else {
-      Bert.alert({ type: 'info', message: 'Spending was updated!' });
+      Bert.alert({ type: 'warning', message: 'Spending was updated!' });
 
       Profiles.update(this.props.profile._id, {$inc: {expenses: this.diff, savings: -this.diff} }, (updateError, num) => {
         if (updateError) {
-          console.log("(Update Expenses Profile) " + updateError);
         } else {
-          console.log("Update Expenses Profile success: " + num);
         }
       });
 
       ExpenseCategory.update(this.props.category._id, {$inc: {expenses: this.diff}}, (updateError, num) => {
         if (updateError) {
-          console.log("(Update Category Expenses) " + updateError);
         } else {
-          console.log("Update Category Expensess success: " + num);
         }
       });
     }
@@ -92,9 +85,7 @@ class CategoryItem extends React.Component {
 
       Profiles.update(this.props.profile._id, {$inc: {savings: this.oldExp, expenses: -this.oldExp} }, (updateError, num) => {
         if (updateError) {
-          console.log("(Update Expenses Profile) " + updateError);
         } else {
-          console.log("Update Expenses Profile success: " + num);
         }
       });
     }
@@ -108,9 +99,7 @@ class CategoryItem extends React.Component {
 
       Profiles.update(this.props.profile._id, {$inc: {savings: this.oldCatExp, expenses: -this.oldCatExp} }, (updateError, num) => {
         if (updateError) {
-          console.log("(Delete Category) " + updateError);
         } else {
-          console.log("Delete Category success: " + num);
         }
       });
     }
@@ -119,6 +108,7 @@ class CategoryItem extends React.Component {
   submit(data) {
     const { amount_spent, description, category_id, date, category_name } = data;
     const user = Meteor.user().username;
+
     this.newExp = amount_spent;
 
     UserExpense.insert({ user,
@@ -128,6 +118,7 @@ class CategoryItem extends React.Component {
   update(data, id) {
     const { amount_spent, description, category_id, date, category_name } = data;
     const oldAmount = UserExpense.findOne({_id: id}).amount_spent;
+
     this.diff = amount_spent - oldAmount;
 
     UserExpense.update({_id: id}, { $set: { amount_spent, description, category_id, date, category_name } }, this.updateAlert);
@@ -159,7 +150,7 @@ class CategoryItem extends React.Component {
                       <AutoForm ref={(ref) => { this.formRef = ref; }}
                                 schema={UserExpenseSchema} onSubmit={this.submit}>
                         <Segment>
-                          <TextField type='date' name="date" label="Date of Spending:"/>
+                          <TextField type="date" name="date" label="Date of Spending:"/>
                           <NumField name="amount_spent" label="Input Amount Spent:"/>
                           <TextField name="description" label="Description:"/>
                           <ErrorsField/>
@@ -189,7 +180,7 @@ class CategoryItem extends React.Component {
                       </Table.Header>
                       <Table.Body>
                           {UserExpense.find({category_id: this.props.category._id }).fetch().map((item, curr) => <Table.Row>
-                            <Table.Cell key={curr}>{item.date.toISOString().split("T")[0]}</Table.Cell>
+                            <Table.Cell key={curr}>{item.date.toISOString().split('T')[0]}</Table.Cell>
                             <Table.Cell key={curr}>{item.amount_spent}</Table.Cell>
                             <Table.Cell key={curr}>{item.description}</Table.Cell>
                             <Table.Cell key={curr}>
@@ -198,9 +189,9 @@ class CategoryItem extends React.Component {
                                 <Modal.Content>
                                   <Modal.Description>
                                     <AutoForm ref={(ref) => { this.formRef = ref; }}
-                                              schema={UserExpenseSchema} onSubmit={(event) => this.update(event, item._id)} model={UserExpense.findOne(item._id)}>
+                                              schema={UserExpenseSchema} onSubmit={event => this.update(event, item._id)} model={UserExpense.findOne(item._id)}>
                                       <Segment>
-                                        <TextField type='date' name="date" label="Date of Spending:"/>
+                                        <TextField type="date" name="date" label="Date of Spending:"/>
                                         <TextField name="amount_spent" label="Input Amount Spent:"/>
                                         <TextField name="description" label="Description:"/>
                                         <ErrorsField/>
@@ -231,7 +222,7 @@ class CategoryItem extends React.Component {
                 content="Are you sure you want to remove this category?"
                 cancelButton="Cancel"
                 confirmButton="Remove the category"
-                size='large'
+                size="large"
                 onConfirm={() => this.categoryRemove(this.props.category._id)} />
           </div>
         </Card>

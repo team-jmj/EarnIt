@@ -2,8 +2,6 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment, Modal, Icon, Button} from 'semantic-ui-react';
 import { Accounts } from 'meteor/accounts-base';
-import { Bert } from 'meteor/themeteorchef:bert';
-import { Profiles } from '../../api/profile/profile';
 
 /**
  * Signup component is similar to signin component, but we attempt to create a new user instead.
@@ -14,10 +12,6 @@ export default class Signup extends React.Component {
     super(props);
     this.state = { email: '', password: '', error: '', redirectToReferer: false };
 
-    /*
-     * Ensure that 'this' is bound to this component in these two functions.
-     * https://medium.freecodecamp.org/react-binding-patterns-5-approaches-for-handling-this-92c651b5af56
-     */
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -47,14 +41,12 @@ export default class Signup extends React.Component {
     const { from } = { from: { pathname: '/inputprofile' } };
     const maxLength = 6;
 
-    console.log(this.state.redirectToReferer)
-
     if (this.state.redirectToReferer) {
       return <Redirect to={ from }/>;
     }
 
     return (
-        <Container textAlign="left" style={{ backgroundColor: '#21BA45', borderRadius: '10%', padding: '5%', margin: '5%', width: '55%' }} fluid>
+        <Container textAlign="left" style={{ borderRadius: '10%', padding: '5%', margin: '5%', width: '55%' }} fluid>
               <Segment style={{ padding: '10%', borderRadius: '10%'}}>
                   <Header as="h2" textAlign="center">
                     Register your EarnIt account!
@@ -81,29 +73,15 @@ export default class Signup extends React.Component {
                       <Grid columns={2} textAlign="center">
                         <Grid.Row>
                           <Grid.Column>
-                            {this.state.password.length < maxLength
-                                ? <p><span><Icon disabled name="circle" />At least 6 characters</span></p>
-                                : <p><span><Icon color="green" name="circle" />At Least 6 characters</span></p>}
+                            {this.state.password.length < maxLength ? <p><span><Icon disabled name="circle" />At least 6 characters</span></p> : <p><span><Icon color="green" name="circle" />At Least 6 characters</span></p>}
                           </Grid.Column>
                           <Grid.Column>
-                            {new RegExp('[0-9]').test(this.state.password)
-                                ? <p><span><Icon color="green" name="circle" />One number</span></p>
-                                : <p><span><Icon disabled name="circle" />One number</span></p>}
+                            {new RegExp('[0-9]').test(this.state.password) ? <p><span><Icon color="green" name="circle" />One number</span></p> : <p><span><Icon disabled name="circle" />One number</span></p>}
                           </Grid.Column>
                         </Grid.Row>
                       </Grid>
                     <Container textAlign="center" style={{ margin: '5% 0%' }}>
-                      {(this.state.password.length < maxLength) || !(new RegExp('[0-9]').test(this.state.password)) || !(new RegExp('(.*)@(.*)[.]...').test(this.state.email))
-                          ? <Form.Button
-                              disabled
-                              content="Get Started!"
-                              type="submit"
-                          />
-                          : <Form.Button
-                              positive
-                              content="Get Started!"
-                              type="submit"
-                          />
+                      {(this.state.password.length < maxLength) || !new RegExp('[0-9]').test(this.state.password) || !new RegExp('(.*)@(.*)[.]...').test(this.state.email) ? <Form.Button disabled content="Get Started!" type="submit"/> : <Form.Button positive content="Get Started!" type="submit"/>
                       }
                     </Container>
                   </Form>
@@ -265,9 +243,7 @@ export default class Signup extends React.Component {
                     </Modal>
                   </p>
                 </Container>
-                {this.state.error === ''
-                    ? ''
-                    : <Message
+                {this.state.error === '' ? '' : <Message
                         error
                         header="Registration was not successful"
                         content={this.state.error}

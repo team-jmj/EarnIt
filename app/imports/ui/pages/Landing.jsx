@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, Image, Button } from 'semantic-ui-react';
-import { withRouter, NavLink } from 'react-router-dom';
+import { Grid, Button } from 'semantic-ui-react';
+import { NavLink } from 'react-router-dom';
 import '../stylesheets/landing_stylesheet.css';
 
 /** A simple static component to render some text for the landing page. */
@@ -21,7 +21,7 @@ class Landing extends React.Component {
             </Grid.Row>
 
             <Grid.Row id="grid_rows4">
-              <Button id="getstarted_button" size='big' color='blue' as={NavLink} activeClassName="active" exact to="/about">
+              <Button id="getstarted_button" size="big" color="blue" as={NavLink} activeClassName="active" exact to="/about">
                 Get Started!</Button>
             </Grid.Row>
         </div>

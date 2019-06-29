@@ -34,9 +34,7 @@ class Profile extends React.Component {
       Bert.alert({ type: 'success', message: 'Add succeeded' });
       Profiles.update(this.props.profile._id, {$set: {savings: this.newSavings}}, (updateError, num) => {
         if (updateError) {
-          console.log(updateError);
         } else {
-          console.log(num);
         }
       });
       this.formRef.reset();
@@ -47,6 +45,7 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
+
     this.newSavings = this.props.profile.savings + amount;
 
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
@@ -55,11 +54,10 @@ class Profile extends React.Component {
   /** On click, delete the data. */
   delete(id) {
     const amount = Incomes.findOne({_id: id}).amount;
+
     Profiles.update(this.props.profile._id, {$inc: {savings: -amount}, }, (updateError, num) => {
       if (updateError) {
-        console.log("(Delete Income) " + updateError);
       } else {
-        console.log("Delete Income success: " + num);
       }
     });
     Incomes.remove({_id: id});
@@ -67,7 +65,7 @@ class Profile extends React.Component {
 
   // /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-    return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+    return this.props.ready ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
   // /** Render the page once subscriptions have been received. */
@@ -89,12 +87,12 @@ class Profile extends React.Component {
               <Header as="h2" textAlign="center">Add Income</Header>
                 <AutoForm ref={(ref) => { this.formRef = ref; }} schema={IncomeSchema} onSubmit={this.submit}>
                   <Segment>
-                    <TextField type='date' name='date'/>
-                    <TextField name='name'/>
-                    <NumField name='amount'/>
-                    <SubmitField value='Add'/>
+                    <TextField type="date" name="date"/>
+                    <TextField name="name"/>
+                    <NumField name="amount"/>
+                    <SubmitField value="Add"/>
                     <ErrorsField/>
-                    <HiddenField name='owner' value='fakeuser@foo.com'/>
+                    <HiddenField name="owner" value="fakeuser@foo.com"/>
                   </Segment>
                 </AutoForm>
             <Header as="h2">Income History</Header>
@@ -109,12 +107,12 @@ class Profile extends React.Component {
                 </Table.Row>
               </Table.Header>
               <Table.Body>
-                {Incomes.find({}).fetch().map((item, i) => <Table.Row>
-                      <Table.Cell key={i}>{item.date.toISOString().split("T")[0]}</Table.Cell>
-                      <Table.Cell key={i}>{item.name}</Table.Cell>
-                      <Table.Cell key={i}>$ {item.amount}</Table.Cell>
-                      <Table.Cell key={i}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
-                      <Table.Cell key={i}><Button onClick={()=> this.delete(item._id)}>Delete</Button></Table.Cell></Table.Row>)}
+                {Incomes.find({}).fetch().map((item, identifier) => <Table.Row>
+                      <Table.Cell key={identifier}>{item.date.toISOString().split('T')[0]}</Table.Cell>
+                      <Table.Cell key={identifier}>{item.name}</Table.Cell>
+                      <Table.Cell key={identifier}>$ {item.amount}</Table.Cell>
+                      <Table.Cell key={identifier}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
+                      <Table.Cell key={identifier}><Button onClick={() => this.delete(item._id)}>Delete</Button></Table.Cell></Table.Row>)}
               </Table.Body>
             </Table>
           </Container>
