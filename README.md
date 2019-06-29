@@ -55,7 +55,8 @@ meteor npm run start
     * Incorporate user data into user home
 * Jun Okabe
   * Completed Tasks (6/30/19):
-    * To be updated ...
+    * Fixed all the ESLint warnings that were still showing
+    * Removed all unused files
   * Completed Tasks (6/24/19):
     * Expense Page Setup (expense catgories and the user spending) has been completed
   * Completed Tasks (6/16/19):
