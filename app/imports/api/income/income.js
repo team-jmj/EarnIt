@@ -9,19 +9,15 @@ const Incomes = new Mongo.Collection('Incomes');
 const IncomeSchema = new SimpleSchema({
   date: {
     type: Date,
-    // optional: true,
   },
   name: {
     type: String,
-    // optional: true,
   },
   amount: {
     type: Number,
-    // optional: true,
   },
   owner: {
     type: String,
-    // optional: true,
   },
 }, { tracker: Tracker });
 

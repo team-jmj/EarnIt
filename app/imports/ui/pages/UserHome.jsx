@@ -21,47 +21,48 @@ class UserHome extends React.Component {
     const month = date.toLocaleString('en-us', { month: 'long' });
 
     const data = this.props.categories.map(x => {
-      return {"y": Math.round(100 * (x.expenses / this.props.profile.expenses)), "label": x.category}
+      return {'y': Math.round(100 * (x.expenses / this.props.profile.expenses)), label: x.category};
     });
 
     const options1 = {
       animationEnabled: true,
-      theme: "light1",
-      title:{
-        text: month
+      theme: 'light1',
+      title: {
+        text: month,
       },
       data: [{
-        type: "pie",
+        type: 'pie',
         showInLegend: true,
-        legendText: "{label}",
-        indexLabelPlacement: "outside",
-        indexLabel: "{label}: {y}%",
+        legendText: '{label}',
+        indexLabelPlacement: 'outside',
+        indexLabel: '{label}: {y}%',
         startAngle: -90,
-        dataPoints: data
-      }]
+        dataPoints: data,
+      }],
     };
     const options2 = {
       animationEnabled: true,
-      theme: "light1",
-      title:{
-        text: year
+      theme: 'light1',
+      title: {
+        text: year,
       },
       data: [{
-        type: "pie",
+        type: 'pie',
         showInLegend: true,
-        legendText: "{label}",
-        indexLabelPlacement: "outside",
-        indexLabel: "{label}: {y}%",
+        legendText: '{label}',
+        indexLabelPlacement: 'outside',
+        indexLabel: '{label}: {y}%',
         startAngle: -90,
-        dataPoints: data
-      }]
+        dataPoints: data,
+      }],
     };
 
     date = date.toDateString();
+
     return (
-        <Container textAlign='center'>
+        <Container textAlign="center">
           <h1>{date}</h1>
-          <h1>This month you've saved: ${this.props.profile.savings}</h1>
+          <h1>This month you&apos;ve saved: ${this.props.profile.savings}</h1>
           <Grid centered container>
             <Grid.Column width={8}>
               <CanvasJSChart options={options1}
@@ -97,11 +98,3 @@ export default withTracker(() => {
     ready: profileSub.ready() && expenseSub.ready(),
   };
 })(UserHome);
-
-
-
-
-
-
-
-

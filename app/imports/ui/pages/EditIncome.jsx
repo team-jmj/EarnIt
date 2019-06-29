@@ -34,9 +34,7 @@ class EditIncome extends React.Component {
       Bert.alert({ type: 'success', message: 'Update succeeded' });
       Profiles.update(this.props.profile._id, {$inc: {savings: this.diff}}, (updateError, num) => {
         if (updateError) {
-          console.log("(Edit Income) " + updateError);
         } else {
-          console.log("Edit Income success: " + num);
         }
       });
       this.formRef.reset();
@@ -47,6 +45,7 @@ class EditIncome extends React.Component {
   /** On successful submit, insert the data. */
   submit(data) {
     const { date, name, amount, owner, _id } = data;
+
     this.diff = amount - this.props.doc.amount;
 
     Incomes.update(_id, { $set: { date, name, amount, owner } }, this.insertCallback);
@@ -54,7 +53,7 @@ class EditIncome extends React.Component {
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
   render() {
-      return (this.props.ready) ? this.renderPage() : <Loader active>Getting data</Loader>;
+      return this.props.ready ? this.renderPage() : <Loader active>Getting data</Loader>;
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */
@@ -71,7 +70,7 @@ class EditIncome extends React.Component {
             <Header as="h2" textAlign="center">Edit Income</Header>
             <AutoForm ref={(ref) => { this.formRef = ref; }} schema={IncomeSchema} onSubmit={this.submit} model={this.props.doc}>
               <Segment>
-                <TextField type='date' name="date"/>
+                <TextField type="date" name="date"/>
                 <TextField name="name"/>
                 <NumField name="amount"/>
                 <SubmitField value="Edit"/>

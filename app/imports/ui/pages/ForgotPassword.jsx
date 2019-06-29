@@ -36,30 +36,29 @@ class ForgotPassword extends React.Component {
   render() {
     let message = '';
     if (this.state.sent && this.state.error === '') {
-      message =
-      <Message
+      message = <Message
           success
           header="Email sent with link to reset password"
           content="Check your email!"
-      />
+      />;
     } else if (this.state.error) {
-      message =
-      <Message
+      message = <Message
           error
           header="Email was not sent"
           content={this.state.error}
-      />
+      />;
     }
+
     return (
         <Grid centered container>
           <Grid.Row>
-            <Grid.Column verticalAlign='middle' width={2}>
+            <Grid.Column verticalAlign="middle" width={2}>
               Enter email:
             </Grid.Column>
-            <Grid.Column verticalAlign='middle' width={3}>
-                <Input icon='mail outline' iconPosition='left' value={this.state.email} onChange={this.handleChange}/>
+            <Grid.Column verticalAlign="middle" width={3}>
+                <Input icon="mail outline" iconPosition="left" value={this.state.email} onChange={this.handleChange}/>
             </Grid.Column>
-            <Grid.Column verticalAlign='middle' width={2}>
+            <Grid.Column verticalAlign="middle" width={2}>
                 <Button onClick={this.handleSend}>Send</Button>
             </Grid.Column>
           </Grid.Row>
@@ -72,18 +71,3 @@ class ForgotPassword extends React.Component {
 }
 
 export default ForgotPassword;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

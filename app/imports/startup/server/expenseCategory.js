@@ -8,5 +8,6 @@ Meteor.publish('ExpenseCategory', function publish() {
 
     return ExpenseCategory.find({ user: username });
   }
+
   return this.ready();
 });
