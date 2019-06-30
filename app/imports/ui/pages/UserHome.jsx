@@ -2,12 +2,13 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { Profiles } from '/imports/api/profile/profile';
-import { ExpenseCategory } from '/imports/api/expenseCategory/expenseCategory';
-import { UserExpense } from '/imports/api/userExpense/userExpense';
-import { Incomes } from '/imports/api/income/income';
 import { Container, Grid, Loader } from 'semantic-ui-react';
+import { Profiles } from '../../api/profile/profile';
+import { ExpenseCategory } from '../../api/expenseCategory/expenseCategory';
+import { UserExpense } from '../../api/userExpense/userExpense';
+import { Incomes } from '../../api/income/income';
 import CanvasJSReact from '../../canvasjs.react';
+
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 class UserHome extends React.Component {

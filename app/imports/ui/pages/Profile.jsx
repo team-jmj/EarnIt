@@ -2,8 +2,6 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Container, Table, Header, Loader, Grid, Segment, Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { Profiles } from '/imports/api/profile/profile';
-import { Incomes, IncomeSchema } from '/imports/api/income/income';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import AutoForm from 'uniforms-semantic/AutoForm';
@@ -13,6 +11,8 @@ import SubmitField from 'uniforms-semantic/SubmitField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { Profiles } from '../../api/profile/profile';
+import { Incomes, IncomeSchema } from '../../api/income/income';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class Profile extends React.Component {
@@ -39,6 +39,7 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
+
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
   }
 
@@ -54,7 +55,16 @@ class Profile extends React.Component {
 
   // /** Render the page once subscriptions have been received. */
   renderPage() {
-    return (
+    if (this.props.profile == null) {
+      return (
+        <Container>
+          <Link to={'/inputprofile'}>
+            <Button id="button">Create Profile</Button>
+          </Link>
+        </Container>
+      );
+    } else {
+      return (
           <Container>
             <Grid container centered>
               <Grid.Column>
@@ -67,18 +77,18 @@ class Profile extends React.Component {
                   <Button id="editbutton" as={Link} to={`/edit/${this.props.profile._id}`}>Edit</Button>
                 </Segment>
               </Grid.Column>
-              </Grid>
-              <Header as="h2" textAlign="center">Add Income</Header>
-                <AutoForm ref={(ref) => { this.formRef = ref; }} schema={IncomeSchema} onSubmit={this.submit}>
-                  <Segment>
-                    <TextField type="date" name="date"/>
-                    <TextField name="name"/>
-                    <NumField name="amount"/>
-                    <SubmitField value="Add"/>
-                    <ErrorsField/>
-                    <HiddenField name="owner" value="fakeuser@foo.com"/>
-                  </Segment>
-                </AutoForm>
+            </Grid>
+            <Header as="h2" textAlign="center">Add Income</Header>
+            <AutoForm ref={(ref) => { this.formRef = ref; }} schema={IncomeSchema} onSubmit={this.submit}>
+              <Segment>
+                <TextField type="date" name="date"/>
+                <TextField name="name"/>
+                <NumField name="amount"/>
+                <SubmitField value="Add"/>
+                <ErrorsField/>
+                <HiddenField name="owner" value="fakeuser@foo.com"/>
+              </Segment>
+            </AutoForm>
             <Header as="h2">Income History</Header>
             <Table celled textAlign="center">
               <Table.Header>
@@ -92,15 +102,17 @@ class Profile extends React.Component {
               </Table.Header>
               <Table.Body>
                 {Incomes.find({}).fetch().map((item, identifier) => <Table.Row>
-                      <Table.Cell key={identifier}>{item.date.toISOString().split('T')[0]}</Table.Cell>
-                      <Table.Cell key={identifier}>{item.name}</Table.Cell>
-                      <Table.Cell key={identifier}>$ {item.amount}</Table.Cell>
-                      <Table.Cell key={identifier}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
-                      <Table.Cell key={identifier}><Button onClick={() => this.delete(item._id)}>Delete</Button></Table.Cell></Table.Row>)}
+                  <Table.Cell key={identifier}>{item.date.toISOString().split('T')[0]}</Table.Cell>
+                  <Table.Cell key={identifier}>{item.name}</Table.Cell>
+                  <Table.Cell key={identifier}>$ {item.amount}</Table.Cell>
+                  <Table.Cell key={identifier}><Link to={`/editIncome/${item._id}`}>Edit</Link></Table.Cell>
+                  <Table.Cell key={identifier}><Button
+                      onClick={() => this.delete(item._id)}>Delete</Button></Table.Cell></Table.Row>)}
               </Table.Body>
             </Table>
           </Container>
-        );
+      );
+    }
   }
 }
 

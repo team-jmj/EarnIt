@@ -1,6 +1,5 @@
 import React from 'react';
 import { Divider, Grid, Header, Loader, Segment, Card, Container, Icon, Item, Button } from 'semantic-ui-react';
-import { ExpenseCategory, ExpenseCategorySchema } from '/imports/api/expenseCategory/expenseCategory';
 import { Bert } from 'meteor/themeteorchef:bert';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import HiddenField from 'uniforms-semantic/HiddenField';
@@ -10,6 +9,8 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import CategoryItem from '../components/CategoryList';
+import { ExpenseCategory, ExpenseCategorySchema } from '../../api/expenseCategory/expenseCategory';
+
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class UserExpenses extends React.Component {
