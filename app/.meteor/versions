@@ -98,3 +98,4 @@ tracker@1.2.0
 underscore@1.0.10
 webapp@1.7.3
 webapp-hashing@1.0.9
+zuuk:stale-session@1.0.8

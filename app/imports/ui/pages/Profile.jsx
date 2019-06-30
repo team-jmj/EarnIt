@@ -11,6 +11,7 @@ import SubmitField from 'uniforms-semantic/SubmitField';
 import HiddenField from 'uniforms-semantic/HiddenField';
 import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Bert } from 'meteor/themeteorchef:bert';
+import { check } from 'meteor/check';
 import { Profiles } from '../../api/profile/profile';
 import { Incomes, IncomeSchema } from '../../api/income/income';
 
@@ -39,6 +40,11 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
+
+    check(name, String);
+    check(amount, Number);
+
+    this.newSavings = this.props.profile.savings + amount;
 
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
   }

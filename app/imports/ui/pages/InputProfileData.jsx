@@ -10,6 +10,7 @@ import { Bert } from 'meteor/themeteorchef:bert';
 import { Meteor } from 'meteor/meteor';
 import { Redirect } from 'react-router-dom';
 import { Profiles, ProfileSchema } from '../../api/profile/profile';
+import { check } from 'meteor/check';
 
 /** Renders the Page for adding a document. */
 class InputProfileData extends React.Component {
@@ -36,6 +37,13 @@ class InputProfileData extends React.Component {
   /** On submit, insert the data. */
   submit(data) {
     const { user, goal } = data;
+
+    check(user, String);
+    check(goal, Number);
+
+    const expenses = 0;
+    const savings = 0;
+    
     const owner = Meteor.user().username;
 
     Profiles.insert({ user, goal, owner }, this.insertCallback);

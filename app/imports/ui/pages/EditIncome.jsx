@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { Incomes, IncomeSchema } from '../../api/income/income';
 import { Profiles } from '/imports/api/profile/profile';
+import { check } from 'meteor/check';
 
 /** Renders the Page for editing a single document. */
 class EditIncome extends React.Component {
@@ -45,6 +46,9 @@ class EditIncome extends React.Component {
   /** On successful submit, insert the data. */
   submit(data) {
     const { date, name, amount, owner, _id } = data;
+
+    check(name, String);
+    check(amount, Number);
 
     this.diff = amount - this.props.doc.amount;
 

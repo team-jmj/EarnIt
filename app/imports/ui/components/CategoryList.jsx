@@ -12,6 +12,7 @@ import { Profiles } from '/imports/api/profile/profile';
 import { Meteor } from 'meteor/meteor';
 import { Bert } from 'meteor/themeteorchef:bert';
 import { withTracker } from 'meteor/react-meteor-data';
+import { check } from 'meteor/check';
 
 /** Renders a single row in the List Category table.*/
 class CategoryItem extends React.Component {
@@ -67,6 +68,12 @@ class CategoryItem extends React.Component {
   submit(data) {
     const { amount_spent, description, category_id, date, category_name } = data;
     const user = Meteor.user().username;
+
+    check(amount_spent, Number);
+    check(description, String);
+
+    this.newExp = amount_spent;
+
     UserExpense.insert({ user,
       category_id, amount_spent, description, date, category_name}, this.insertCallback);
   }
