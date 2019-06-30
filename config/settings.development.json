@@ -7,5 +7,10 @@
   "defaultData": [
     { "user": "admin", "savings": 0, "goal": 2000, "expenses": 0, "owner": "admin@foo.com" },
     { "user": "john", "savings": 0, "goal": 1000, "expenses": 0, "owner": "john@foo.com" }
-  ]
+  ],
+
+  "accounts-lockout" : {
+    "duration": 300,
+    "attempts": 3
+  }
 }
