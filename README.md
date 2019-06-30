@@ -24,7 +24,8 @@ meteor npm run start
 ## Team Members
 * Mai Abe
   * Completed Tasks (6/30/19):
-    * To be updated ...
+    * Profile page bug fix (direct user to InputProfileData page when profile data is null) 
+    * Some ESLint fixes on import statement orders, etc
   * Completed Tasks (6/24/19):
     * Set up InputProfileData page
     * Implement Profile page to show user data, and make it editable
