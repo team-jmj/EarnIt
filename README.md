@@ -40,20 +40,17 @@ meteor npm run start
     * Insert an editable profile data input section in the profile page along with the income input
 * Julie Chai
   * Completed Tasks (6/30/19):
-    * To be updated ...
+    * Implement lockout after bad signin attempts feature
+    * Group user data by month and year for user home page graphs
   * Completed Tasks (6/24/19):
     * Add and update expenses and savings fields to profile and expenses field to expense categories
-    * Integrate user data to user home page and show spendings on graph
+    * Integrate user data to User Home Page and show spendings on graph
   * Completed Tasks (6/16/19):
     * Implement forgot password & reset password features
   * Completed Tasks (6/9/19):
     * Set up app overview page
     * Set up user home page
     * Start working on login security features (forgot password)
-  * Current Tasks:
-    * Continue working on login security features
-    * Continue to update app overview
-    * Incorporate user data into user home
 * Jun Okabe
   * Completed Tasks (6/30/19):
     * Fixed all the ESLint warnings that were still showing
@@ -71,7 +68,8 @@ meteor npm run start
 
 ***
 ## Completed Tasks (6/30/19)
-* To be updated...
+* Implement lockout after bad signin attempts feature
+* Group user data by month and year for user home page graphs
 
 ## Completed Tasks (6/24/19)
 * Expense Page Functionality Completed
@@ -92,9 +90,7 @@ meteor npm run start
 * Implemented security features (discussed in our report) for the Signup Page.
 
 ## Pending Tasks
-* Update app overview
 * Continue implementing login/signup security features
-* Categorize spendings by month and show yearly graph
 
 ***
 ## Closing Thoughts
