@@ -12,7 +12,8 @@ class About extends React.Component {
           EarnIt allows you to set a monthly savings goal, then log and categorize every transaction, for both money coming in and going out. Throughout the month, you will be able to see how much you&apos;ve saved so far and monthly and yearly graphs showing your spendings by categories.
         </Tab.Pane> },
       { menuItem: '3', render: () => <Tab.Pane attached={false}>
-          Signup up or login now if you haven&apos;t already if you want to be on top of your finances! EARN it!
+          Signup up or login now if you haven&apos;t already if you want to be on top of your finances! EARN it! <br/><br/>
+          Visit our wiki for more information and a step-by-step user guide: <a href={'https://github.com/team-jmj/EarnIt/wiki'}>https://github.com/team-jmj/EarnIt/wiki</a>
         </Tab.Pane> },
     ];
 
