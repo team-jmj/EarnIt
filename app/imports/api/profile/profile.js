@@ -11,15 +11,7 @@ const ProfileSchema = new SimpleSchema({
     type: String,
     optional: true,
   },
-  savings: {
-    type: Number,
-    optional: true,
-  },
   goal: {
-    type: Number,
-    optional: true,
-  },
-  expenses: {
     type: Number,
     optional: true,
   },

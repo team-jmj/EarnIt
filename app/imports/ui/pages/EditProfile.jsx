@@ -10,9 +10,9 @@ import ErrorsField from 'uniforms-semantic/ErrorsField';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
-import { Profiles, ProfileSchema } from '../../api/profile/profile';
 import { Redirect } from 'react-router-dom';
 import { check } from 'meteor/check';
+import { Profiles, ProfileSchema } from '../../api/profile/profile';
 
 /** Renders the Page for editing a single document. */
 class EditProfile extends React.Component {

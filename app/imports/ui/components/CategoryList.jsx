@@ -22,10 +22,6 @@ class CategoryItem extends React.Component {
     this.remove = this.remove.bind(this);
     this.categoryRemove = this.categoryRemove.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
-    this.newExp = 0;
-    this.oldExp = 0;
-    this.oldCatExp = 0;
-    this.diff = 0;
     this.updateAlert = this.updateAlert.bind(this);
     this.removeAlert = this.removeAlert.bind(this);
     this.categoryRemoveAlert = this.categoryRemoveAlert.bind(this);
@@ -41,19 +37,6 @@ class CategoryItem extends React.Component {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'info', message: 'Spending was added!' });
-
-      Profiles.update(this.props.profile._id, {$inc: {expenses: this.newExp, savings: -this.newExp}, }, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
-
-      ExpenseCategory.update(this.props.category._id, {$inc: {expenses: this.newExp}}, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
-
       this.formRef.reset();
     }
   }
@@ -63,18 +46,6 @@ class CategoryItem extends React.Component {
       Bert.alert({ type: 'danger', message: `Update failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'warning', message: 'Spending was updated!' });
-
-      Profiles.update(this.props.profile._id, {$inc: {expenses: this.diff, savings: -this.diff} }, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
-
-      ExpenseCategory.update(this.props.category._id, {$inc: {expenses: this.diff}}, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
     }
   }
 
@@ -83,12 +54,6 @@ class CategoryItem extends React.Component {
       Bert.alert({ type: 'danger', message: `Remove failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'danger', message: 'Spending was removed!' });
-
-      Profiles.update(this.props.profile._id, {$inc: {savings: this.oldExp, expenses: -this.oldExp} }, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
     }
   }
 
@@ -97,12 +62,6 @@ class CategoryItem extends React.Component {
       Bert.alert({ type: 'danger', message: `Remove failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'danger', message: 'Category was removed!' });
-
-      Profiles.update(this.props.profile._id, {$inc: {savings: this.oldCatExp, expenses: -this.oldCatExp} }, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
     }
   }
 
@@ -121,15 +80,10 @@ class CategoryItem extends React.Component {
 
   update(data, id) {
     const { amount_spent, description, category_id, date, category_name } = data;
-    const oldAmount = UserExpense.findOne({_id: id}).amount_spent;
-
-    this.diff = amount_spent - oldAmount;
-
     UserExpense.update({_id: id}, { $set: { amount_spent, description, category_id, date, category_name } }, this.updateAlert);
   }
 
   remove(id) {
-    this.oldExp = UserExpense.findOne({_id: id}).amount_spent;
     UserExpense.remove({_id: id}, this.removeAlert);
   }
 
@@ -137,7 +91,6 @@ class CategoryItem extends React.Component {
     for (let userExpense of UserExpense.find({category_id: id}).fetch()) {
       UserExpense.remove({_id: userExpense._id});
     }
-    this.oldCatExp = ExpenseCategory.findOne({_id: id}).expenses;
     ExpenseCategory.remove({_id: id}, this.categoryRemoveAlert);
   }
 

@@ -39,7 +39,7 @@ export default class Signup extends React.Component {
 
   /** Display the signup form. */
   render() {
-    const { from } = { from: { pathname: '/inputprofile' } };
+    const { from } = { from: { pathname: '/profile' } };
     const maxLength = 6;
 
     if (this.state.redirectToReferer) {

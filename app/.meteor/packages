@@ -40,3 +40,4 @@ accounts-base
 accounts-ui
 zuuk:stale-session
 check
+eluck:accounts-lockout

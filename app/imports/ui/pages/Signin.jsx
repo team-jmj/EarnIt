@@ -32,7 +32,11 @@ export default class Signin extends React.Component {
 
     Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
-        this.setState({ error: err.reason });
+        if (err.error === 423) {
+          this.setState({ error: "Wrong passwords were submitted too many times. Account is locked for a while. Please try again later." })
+        } else {
+          this.setState({ error: err.reason });
+        }
       } else {
         this.setState({ error: '', redirectToReferer: true });
       }
@@ -83,7 +87,8 @@ export default class Signin extends React.Component {
               <Message>
                 <Link to="/signup">Click here to Register</Link>
               </Message>
-              {this.state.error === '' ? '' : (<Message
+              {this.state.error === '' ? '' : (
+                  <Message
                       error
                       header="Login was not successful"
                       content={this.state.error}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Divider, Grid, Header, Loader, Segment, Card, Container, Icon, Item, Button } from 'semantic-ui-react';
-import { ExpenseCategory, ExpenseCategorySchema } from '/imports/api/expenseCategory/expenseCategory';
 import { Bert } from 'meteor/themeteorchef:bert';
 import AutoForm from 'uniforms-semantic/AutoForm';
 import HiddenField from 'uniforms-semantic/HiddenField';
@@ -11,6 +10,8 @@ import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import CategoryItem from '../components/CategoryList';
 import { check } from 'meteor/check';
+import { ExpenseCategory, ExpenseCategorySchema } from '../../api/expenseCategory/expenseCategory';
+
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class UserExpenses extends React.Component {
@@ -27,7 +28,7 @@ class UserExpenses extends React.Component {
     if (error) {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
-      Bert.alert({ type: 'success', message: 'Category has been Added!' });
+      Bert.alert({ type: 'success', message: 'Category has been added!' });
       this.formRef.reset();
     }
   }
@@ -62,7 +63,6 @@ class UserExpenses extends React.Component {
                   <TextField name="category" label="New Category:"/>
                   <TextField name="description" label="Description:"/>
                   <ErrorsField/>
-                  <HiddenField name="expenses" value={0}/>
                   <HiddenField name="user" value={Meteor.user().username}/>
                 </Segment>
                 <Container textAlign="center">
