@@ -23,7 +23,6 @@ class Profile extends React.Component {
     this.delete = this.delete.bind(this);
     this.insertCallback = this.insertCallback.bind(this);
     this.formRef = null;
-    this.newSavings = 0;
   }
 
   /** Notify the user of the results of the submit. If successful, clear the form. */
@@ -32,11 +31,6 @@ class Profile extends React.Component {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
       Bert.alert({ type: 'success', message: 'Add succeeded' });
-      Profiles.update(this.props.profile._id, {$set: {savings: this.newSavings}}, (updateError, num) => {
-        if (updateError) {
-        } else {
-        }
-      });
       this.formRef.reset();
     }
   }
@@ -45,21 +39,11 @@ class Profile extends React.Component {
   submit(data) {
     const { date, name, amount } = data;
     const owner = Meteor.user().username;
-
-    this.newSavings = this.props.profile.savings + amount;
-
     Incomes.insert({ date, name, amount, owner }, this.insertCallback);
   }
 
   /** On click, delete the data. */
   delete(id) {
-    const amount = Incomes.findOne({_id: id}).amount;
-
-    Profiles.update(this.props.profile._id, {$inc: {savings: -amount}, }, (updateError, num) => {
-      if (updateError) {
-      } else {
-      }
-    });
     Incomes.remove({_id: id});
   }
 

@@ -36,11 +36,9 @@ class InputProfileData extends React.Component {
   /** On submit, insert the data. */
   submit(data) {
     const { user, goal } = data;
-    const expenses = 0;
-    const savings = 0;
     const owner = Meteor.user().username;
 
-    Profiles.insert({ user, savings, goal, expenses, owner }, this.insertCallback);
+    Profiles.insert({ user, goal, owner }, this.insertCallback);
   }
 
   /** Render the form. Use Uniforms: https://github.com/vazco/uniforms */

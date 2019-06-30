@@ -10,7 +10,6 @@ const ExpenseCategorySchema = new SimpleSchema({
   user: String,
   category: String,
   description: String,
-  expenses: Number,
 }, { tracker: Tracker });
 
 /** Attach this schema to the collection. */

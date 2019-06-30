@@ -26,7 +26,7 @@ class UserExpenses extends React.Component {
     if (error) {
       Bert.alert({ type: 'danger', message: `Add failed: ${error.message}` });
     } else {
-      Bert.alert({ type: 'success', message: 'Category has been Added!' });
+      Bert.alert({ type: 'success', message: 'Category has been added!' });
       this.formRef.reset();
     }
   }
@@ -57,7 +57,6 @@ class UserExpenses extends React.Component {
                   <TextField name="category" label="New Category:"/>
                   <TextField name="description" label="Description:"/>
                   <ErrorsField/>
-                  <HiddenField name="expenses" value={0}/>
                   <HiddenField name="user" value={Meteor.user().username}/>
                 </Segment>
                 <Container textAlign="center">
