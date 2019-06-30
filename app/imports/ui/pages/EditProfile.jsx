@@ -12,6 +12,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { Profiles, ProfileSchema } from '../../api/profile/profile';
 import { Redirect } from 'react-router-dom';
+import { check } from 'meteor/check';
 
 /** Renders the Page for editing a single document. */
 class EditProfile extends React.Component {
@@ -38,6 +39,9 @@ class EditProfile extends React.Component {
   /** On successful submit, insert the data. */
   submit(data) {
     const { user, goal, owner, _id } = data;
+
+    check(user, String);
+    check(goal, Number);
 
     Profiles.update(_id, { $set: { user, goal, owner } }, this.insertCallback);
   }

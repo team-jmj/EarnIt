@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Form, Grid, Header, Message, Segment, Modal, Icon, Button} from 'semantic-ui-react';
 import { Accounts } from 'meteor/accounts-base';
+import { check } from 'meteor/check';
 
 /**
  * Signup component is similar to signin component, but we attempt to create a new user instead.

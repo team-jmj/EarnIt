@@ -38,3 +38,5 @@ insecure@1.0.7                         # Enable client-side manipulation of Mong
 email
 accounts-base
 accounts-ui
+zuuk:stale-session
+check

@@ -1,11 +1,11 @@
 {
   "defaultAccounts": [
     { "email": "admin@foo.com", "password": "changeme", "role": "admin" },
-    { "email": "john@foo.com", "password": "changeme" }
+    { "email": "email@example.com", "password": "email123" }
   ],
 
   "defaultData": [
     { "user": "admin", "savings": 0, "goal": 2000, "expenses": 0, "owner": "admin@foo.com" },
-    { "user": "john", "savings": 0, "goal": 1000, "expenses": 0, "owner": "john@foo.com" }
+    { "user": "example", "savings": 0, "goal": 1000, "expenses": 0, "owner": "email@example.com" }
   ]
 }

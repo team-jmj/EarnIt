@@ -10,6 +10,7 @@ import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { withTracker } from 'meteor/react-meteor-data';
 import CategoryItem from '../components/CategoryList';
+import { check } from 'meteor/check';
 
 /** Renders a table containing all of the Stuff documents. Use <StuffItem> to render each row. */
 class UserExpenses extends React.Component {
@@ -34,6 +35,10 @@ class UserExpenses extends React.Component {
   /** On submit, insert the data. */
   submit(data) {
     const { category, description, expenses } = data;
+
+    check(category, String);
+    check(description, String);
+
     const user = Meteor.user().username;
 
     ExpenseCategory.insert({ user, category, description, expenses}, this.insertCallback);
