@@ -54,6 +54,8 @@ meteor npm run start
     * Start working on login security features (forgot password)
 * Jun Okabe
   * Completed Tasks (6/30/19):
+    * Added 'check' package to mitigate insecure methods related to user input
+    * Added 'stale-session' to cause users who were not active for 30 minutes in their current session
     * Fixed all the ESLint warnings that were still showing
     * Removed all unused files
   * Completed Tasks (6/24/19):
@@ -71,6 +73,8 @@ meteor npm run start
 ## Completed Tasks (6/30/19)
 * Implement lockout after bad signin attempts feature
 * Group user data by month and year for user home page graphs
+* Code Fix using ESLint
+* Added 'check' package to mitigate insecure methods related to user input
 
 ## Completed Tasks (6/24/19)
 * Expense Page Functionality Completed
@@ -91,7 +95,7 @@ meteor npm run start
 * Implemented security features (discussed in our report) for the Signup Page.
 
 ## Pending Tasks
-* Continue implementing login/signup security features
+* Continue implementing security features (Two-factor authentication, etc.)
 
 ***
 ## Closing Thoughts
