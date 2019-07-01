@@ -3,7 +3,8 @@ EarnIt is a personal finance web application. This web application is designed t
 
 The EarnIt GitHub repository can be viewed at [https://github.com/team-jmj/EarnIt](https://github.com/team-jmj/EarnIt).\
 The GitHub Wiki page of EarnIt can be viewed at [https://github.com/team-jmj/EarnIt/wiki](https://github.com/team-jmj/EarnIt/wiki).\
-The project documentation file of EarnIt can be viewed at [https://github.com/team-jmj/EarnIt/blob/master/README.md](https://github.com/team-jmj/EarnIt/blob/master/README.md).
+The project documentation file of EarnIt can be viewed at [https://github.com/team-jmj/EarnIt/blob/master/README.md](https://github.com/team-jmj/EarnIt/blob/master/README.md).\
+The first release of the application can be viewed at [https://github.com/team-jmj/EarnIt/releases/tag/v1.0](https://github.com/team-jmj/EarnIt/releases/tag/v1.0).
 
 ***
 ## Installation Instruction
